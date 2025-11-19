@@ -1,0 +1,6 @@
+framework module PJSDK {
+  umbrella header "PJSDK.h"
+
+  export *
+  module * { export * }
+}
