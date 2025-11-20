@@ -12,6 +12,7 @@ import { GET_VIDEOS } from './GetVideos';
 import { GET_ALL_INVENTORIES_BY_MID, GET_ALL_ORDER_TYPES_BY_MID, GET_MY_ORDERS, GET_ORDERS } from './CloverQueries';
 import { GET_CHANNELS } from './Channel';
 import { GET_CHATS } from './Chat';
+import { GET_LEADERBOARDS } from './GetLeaderboards';
 
 export {
     GET_NEWS,
@@ -35,5 +36,6 @@ export {
     GET_CHANNELS,
     GET_CHATS,
     GET_USERS,
-    GET_PROGRAM_SCHEDULES
+    GET_PROGRAM_SCHEDULES,
+    GET_LEADERBOARDS
 };

@@ -26,11 +26,13 @@ import {
 } from 'react-native-paper';
 import { Select} from 'native-base';
 import AppText from '../common/Text';
-import {CustomerIO} from 'customerio-reactnative';
+//import {CustomerIO} from 'customerio-reactnative';
 import AvatarPicker from './AvatarPicker';
 import ButtonX from '../common/BottonX';
 import PadWrapper from '../common/PadWrapper';
 import WebviewComponent from '../../screens/Misc/WebviewComponent';
+import { GET_LEADERBOARDS } from '../../Apollo/Queries';
+import { useQuery } from '@apollo/client';
 const { width } = Dimensions.get('window');
 // const challenges = [{
 //   name: "Olympic Cycling Challenge",
@@ -39,36 +41,52 @@ const { width } = Dimensions.get('window');
 //   date: "July 26 - Aug 11"
 // }]
 const challenges = [];
-const leaderboards = [
-  // {
-  //   name: "Tour de TPASC - Nov 17-30",
-  //   link: "https://kitchen.screenfeed.com/app/5c28fvmnd5ga14ajajpwa7w9er.html",
-  //   bg: colors.secondary,
-  // },
-  {
-    name: "20 Days of Fitness",
-    link: "https://kitchen.screenfeed.com/app/7j0vmja0j1r2f4kvrjnvezkz93.html",
-    bg: colors.secondary,
-  },
-  {
-    name: "Longest Standing Members",
-    link: "https://kitchen.screenfeed.com/app/4eebgys16fvpj4v9x79ae3nf5g.html"
-  },
-  {
-    name: "Most Active Users",
-    link: "https://kitchen.screenfeed.com/app/5jfx660qsb9pcmxty0cmgtak7a.html",
-  },
-  {
-    name: "Most Consecutive Days",
-    link: "https://kitchen.screenfeed.com/app/6qdpseb0vrwt7mmtfe6pd63s7b.html",
-  },
-  {
-    name: "Help",
-    link: "https://api.leadconnectorhq.com/widget/form/hx9tE6QdhlQdAayEwPcr",
-    bg: colors.black,
-  },
-]
+
 const LeadersBoardModal = ({isOpen, onDismiss}) => {
+  const [leaderboards, setLeaderboards] = useState([
+    {
+      name: "Tour de TPASC - Nov 17-30",
+      link: "https://kitchen.screenfeed.com/app/5c28fvmnd5ga14ajajpwa7w9er.html",
+      bg: colors.secondary,
+    },
+    {
+      name: "20 Days of Fitness",
+      link: "https://kitchen.screenfeed.com/app/7j0vmja0j1r2f4kvrjnvezkz93.html",
+      bg: colors.secondary,
+    },
+    {
+      name: "Longest Standing Members",
+      link: "https://kitchen.screenfeed.com/app/4eebgys16fvpj4v9x79ae3nf5g.html",
+    },
+    {
+      name: "Most Active Users",
+      link: "https://kitchen.screenfeed.com/app/5jfx660qsb9pcmxty0cmgtak7a.html",
+    },
+    {
+      name: "Most Consecutive Days",
+      link: "https://kitchen.screenfeed.com/app/6qdpseb0vrwt7mmtfe6pd63s7b.html",
+    },
+    {
+      name: "Help",
+      link: "https://api.leadconnectorhq.com/widget/form/hx9tE6QdhlQdAayEwPcr",
+      bg: colors.black,
+    },
+  ]);
+
+  const { data, loading, error } = useQuery(GET_LEADERBOARDS);
+  
+  useEffect(() => {
+    console.log('Leaderboards data', data);
+    if (data?.leaderboards) {
+      setLeaderboards(data.leaderboards);
+      console.log('Leaderboards data', data.leaderboards);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) console.log(error);
+  }, [error]);
+
   const {isWatchConnected, isScanning} = useWatchContext();
   const {actualUser} = useStoreState(state => ({
     actualUser: state.login.actualUser,
@@ -150,9 +168,11 @@ const LeadersBoardModal = ({isOpen, onDismiss}) => {
   const trackCustomer = useCallback(
     (trackData = {}) => {
       if (actualUser._id) {
+        /*
         CustomerIO.identify(actualUser._id, {
           ...trackData,
         });
+        */
       }
     },
     [actualUser],
