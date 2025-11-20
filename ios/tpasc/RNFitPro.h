@@ -6,8 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <React/RCTBridgeModule.h>
-#import <React/RCTEventEmitter.h>
+#import <React-RCTBridge/RCTBridgeModule.h>
+#import <React-RCTBridge/RCTEventEmitter.h>
 
 @class CBPeripheral; // Forward declaration of CBPeripheral
 @class PBSmartBandSportItemData; // Forward declaration of CBPeripheral

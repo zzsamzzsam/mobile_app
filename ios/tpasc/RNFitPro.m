@@ -6,8 +6,8 @@
 //
 
 #import "RNFitPro.h"
-#import <React/RCTEventEmitter.h>
-#import <React/RCTLog.h>
+#import <React-RCTBridge/RCTEventEmitter.h>
+#import <React-RCTUtilities/RCTLog.h>
 #import <PJSDK/PJSDK.h>
 
 
