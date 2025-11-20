@@ -1,0 +1,47 @@
+diff --git a/node_modules/@adrianso/react-native-device-brightness/android/build.gradle b/node_modules/@adrianso/react-native-device-brightness/android/build.gradle
+index cb111dc..78f4a17 100644
+--- a/node_modules/@adrianso/react-native-device-brightness/android/build.gradle
++++ b/node_modules/@adrianso/react-native-device-brightness/android/build.gradle
+@@ -4,6 +4,7 @@ android {
+     compileSdkVersion 31
+ 
+     defaultConfig {
++        namespace 'com.adrianso.reactnativedevicebrightness'
+         minSdkVersion 21
+         targetSdkVersion 31
+         versionCode 2
+diff --git a/node_modules/@adrianso/react-native-device-brightness/android/src/main/AndroidManifest.xml b/node_modules/@adrianso/react-native-device-brightness/android/src/main/AndroidManifest.xml
+index 2d128de..5fbaa4c 100644
+--- a/node_modules/@adrianso/react-native-device-brightness/android/src/main/AndroidManifest.xml
++++ b/node_modules/@adrianso/react-native-device-brightness/android/src/main/AndroidManifest.xml
+@@ -1,3 +1,3 @@
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-          package="org.capslock.RNDeviceBrightness">
++          >
+ </manifest>
+diff --git a/node_modules/@adrianso/react-native-device-brightness/android/src/main/java/org/capslock/RNDeviceBrightness/RNDeviceBrightness.java b/node_modules/@adrianso/react-native-device-brightness/android/src/main/java/org/capslock/RNDeviceBrightness/RNDeviceBrightness.java
+index e688c6c..84ad294 100644
+--- a/node_modules/@adrianso/react-native-device-brightness/android/src/main/java/org/capslock/RNDeviceBrightness/RNDeviceBrightness.java
++++ b/node_modules/@adrianso/react-native-device-brightness/android/src/main/java/org/capslock/RNDeviceBrightness/RNDeviceBrightness.java
+@@ -2,7 +2,7 @@
+  * Created by Calvin Huang on 3/11/17.
+  */
+ 
+-package org.capslock.RNDeviceBrightness;
++package com.adrianso.reactnativedevicebrightness;
+ 
+ import com.facebook.react.ReactPackage;
+ import com.facebook.react.bridge.JavaScriptModule;
+diff --git a/node_modules/@adrianso/react-native-device-brightness/android/src/main/java/org/capslock/RNDeviceBrightness/RNDeviceBrightnessModule.java b/node_modules/@adrianso/react-native-device-brightness/android/src/main/java/org/capslock/RNDeviceBrightness/RNDeviceBrightnessModule.java
+index a690647..2868ac8 100644
+--- a/node_modules/@adrianso/react-native-device-brightness/android/src/main/java/org/capslock/RNDeviceBrightness/RNDeviceBrightnessModule.java
++++ b/node_modules/@adrianso/react-native-device-brightness/android/src/main/java/org/capslock/RNDeviceBrightness/RNDeviceBrightnessModule.java
+@@ -2,7 +2,7 @@
+  * Created by Calvin Huang on 3/11/17.
+  */
+ 
+-package org.capslock.RNDeviceBrightness;
++package com.adrianso.reactnativedevicebrightness;
+ 
+ import android.app.Activity;
+ import android.view.WindowManager;

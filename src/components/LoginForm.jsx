@@ -80,6 +80,7 @@ const LoginForm = () => {
       try {
         setLoading(true);
         setLoadingText('Logging in...');
+        //console.log(JSON.stringify(APP_LOGIN))
         const { data } = await loginUserMutation({
           variables: {
             username,

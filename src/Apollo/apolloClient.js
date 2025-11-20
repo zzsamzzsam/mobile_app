@@ -15,7 +15,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // const graphUrl = 'http://192.168.1.155:5002/graphql';
 // const gqlSubsUrl = 'ws://192.168.1.155:5002/subscriptions';
-const graphUrl = 'https://traffic.tpasc.ca/graphql'
+// const graphUrl = 'https://traffic.tpasc.ca/graphql'
+const graphUrl = 'https://traffic.tpasc.ca/graphql/'
 const gqlSubsUrl = 'wss://traffic.tpasc.ca/subscriptions'
 
 const LOCAL_SYSTEM_IP_ADDRESS = "192.168.1.70";
@@ -23,9 +24,11 @@ const PORT = '5000';
 const authLink = setContext(async (_, { headers }) => {
     headers = headers || {};
     const token = await AsyncStorage.getItem('token');
+    // console.log('Token from AsyncStorage:', token);
     if (token) {
         headers.Authorization = `Bearer ${token}`;
     }
+    //console.log(JSON.stringify(headers));
     return {
         headers: headers,
     };
@@ -57,6 +60,14 @@ const wsLink = new WebSocketLink({
     },
 });
 
+const logLink = new ApolloLink((operation, forward) => {
+  console.log('GraphQL Request:', {
+    query: operation.query.loc?.source.body,
+    variables: operation.variables,
+  });
+  return forward(operation);
+});
+
 const splitLink = split(
     ({ query }) => {
         const definition = getMainDefinition(query);
@@ -66,7 +77,8 @@ const splitLink = split(
         );
     },
     wsLink,
-    authLink.concat(httpLink)
+    logLink.concat(authLink).concat(httpLink)
+    // authLink.concat(httpLink)
 );
 
 export const client = new ApolloClient({

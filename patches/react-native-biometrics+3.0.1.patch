@@ -1,0 +1,64 @@
+diff --git a/node_modules/react-native-biometrics/android/build.gradle b/node_modules/react-native-biometrics/android/build.gradle
+index 7e6d6ac..e6cbfbc 100644
+--- a/node_modules/react-native-biometrics/android/build.gradle
++++ b/node_modules/react-native-biometrics/android/build.gradle
+@@ -25,6 +25,7 @@ def safeExtGet(prop, fallback) {
+ }
+ 
+ android {
++    namespace 'com.react_native_biometrics'
+     compileSdkVersion safeExtGet('compileSdkVersion', 29)
+ 
+     defaultConfig {
+diff --git a/node_modules/react-native-biometrics/android/src/main/AndroidManifest.xml b/node_modules/react-native-biometrics/android/src/main/AndroidManifest.xml
+index ed3936c..5c013d6 100644
+--- a/node_modules/react-native-biometrics/android/src/main/AndroidManifest.xml
++++ b/node_modules/react-native-biometrics/android/src/main/AndroidManifest.xml
+@@ -1,6 +1,6 @@
+ 
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-          package="com.rnbiometrics">
++          >
+     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+ </manifest>
+diff --git a/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/CreateSignatureCallback.java b/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/CreateSignatureCallback.java
+index 7dc9ad9..044deaa 100644
+--- a/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/CreateSignatureCallback.java
++++ b/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/CreateSignatureCallback.java
+@@ -1,4 +1,4 @@
+-package com.rnbiometrics;
++package com.react_native_biometrics;
+ 
+ import android.util.Base64;
+ 
+diff --git a/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/ReactNativeBiometrics.java b/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/ReactNativeBiometrics.java
+index 624ecd9..d0b37bb 100644
+--- a/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/ReactNativeBiometrics.java
++++ b/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/ReactNativeBiometrics.java
+@@ -1,4 +1,4 @@
+-package com.rnbiometrics;
++package com.react_native_biometrics;
+ 
+ import android.os.Build;
+ import android.security.keystore.KeyGenParameterSpec;
+diff --git a/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/ReactNativeBiometricsPackage.java b/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/ReactNativeBiometricsPackage.java
+index 92174e1..da479ef 100644
+--- a/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/ReactNativeBiometricsPackage.java
++++ b/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/ReactNativeBiometricsPackage.java
+@@ -1,4 +1,4 @@
+-package com.rnbiometrics;
++package com.react_native_biometrics;
+ 
+ import com.facebook.react.ReactPackage;
+ import com.facebook.react.bridge.NativeModule;
+diff --git a/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/SimplePromptCallback.java b/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/SimplePromptCallback.java
+index 587f1dd..efa1c78 100644
+--- a/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/SimplePromptCallback.java
++++ b/node_modules/react-native-biometrics/android/src/main/java/com/rnbiometrics/SimplePromptCallback.java
+@@ -1,4 +1,4 @@
+-package com.rnbiometrics;
++package com.react_native_biometrics;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.biometric.BiometricPrompt;

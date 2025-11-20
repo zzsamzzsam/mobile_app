@@ -1,0 +1,49 @@
+diff --git a/node_modules/react-native-linear-gradient/android/build.gradle b/node_modules/react-native-linear-gradient/android/build.gradle
+index 4fc058d..afd2e36 100644
+--- a/node_modules/react-native-linear-gradient/android/build.gradle
++++ b/node_modules/react-native-linear-gradient/android/build.gradle
+@@ -20,6 +20,7 @@ buildscript {
+ apply plugin: 'com.android.library'
+ 
+ android {
++    namespace 'com.react_native_linear_gradient'
+     compileSdkVersion safeExtGet('compileSdkVersion', 30)
+     defaultConfig {
+         minSdkVersion safeExtGet('minSdkVersion', 21)
+diff --git a/node_modules/react-native-linear-gradient/android/src/main/AndroidManifest.xml b/node_modules/react-native-linear-gradient/android/src/main/AndroidManifest.xml
+index a7d57a6..cd87d48 100644
+--- a/node_modules/react-native-linear-gradient/android/src/main/AndroidManifest.xml
++++ b/node_modules/react-native-linear-gradient/android/src/main/AndroidManifest.xml
+@@ -1 +1 @@
+-<manifest package="com.BV.LinearGradient" />
++<manifest  />
+diff --git a/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientManager.java b/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientManager.java
+index 80a9a93..fc1766d 100644
+--- a/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientManager.java
++++ b/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientManager.java
+@@ -1,4 +1,4 @@
+-package com.BV.LinearGradient;
++package com.react_native_linear_gradient;
+ 
+ import com.facebook.react.bridge.ReadableArray;
+ import com.facebook.react.uimanager.SimpleViewManager;
+diff --git a/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientPackage.java b/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientPackage.java
+index f5f34b2..c3e5f66 100644
+--- a/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientPackage.java
++++ b/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientPackage.java
+@@ -1,4 +1,4 @@
+-package com.BV.LinearGradient;
++package com.react_native_linear_gradient;
+ 
+ import com.facebook.react.ReactPackage;
+ import com.facebook.react.bridge.JavaScriptModule;
+diff --git a/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientView.java b/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientView.java
+index 3194c0b..defc7e3 100644
+--- a/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientView.java
++++ b/node_modules/react-native-linear-gradient/android/src/main/java/com/BV/LinearGradient/LinearGradientView.java
+@@ -1,4 +1,4 @@
+-package com.BV.LinearGradient;
++package com.react_native_linear_gradient;
+ 
+ import com.facebook.react.bridge.ColorPropConverter;
+ import com.facebook.react.bridge.ReadableArray;

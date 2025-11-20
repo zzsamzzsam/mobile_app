@@ -1,0 +1,43 @@
+diff --git a/node_modules/react-native-calendar-events/android/build.gradle b/node_modules/react-native-calendar-events/android/build.gradle
+index 6782479..92bc3ed 100644
+--- a/node_modules/react-native-calendar-events/android/build.gradle
++++ b/node_modules/react-native-calendar-events/android/build.gradle
+@@ -5,6 +5,7 @@ def safeExtGet(prop, fallback) {
+ }
+ 
+ android {
++    namespace 'com.react_native_calendar_events'
+     compileSdkVersion safeExtGet('compileSdkVersion', 28)
+     buildToolsVersion safeExtGet('buildToolsVersion', '28.0.3')
+ 
+diff --git a/node_modules/react-native-calendar-events/android/src/main/AndroidManifest.xml b/node_modules/react-native-calendar-events/android/src/main/AndroidManifest.xml
+index efcc1bf..6cc9ef7 100644
+--- a/node_modules/react-native-calendar-events/android/src/main/AndroidManifest.xml
++++ b/node_modules/react-native-calendar-events/android/src/main/AndroidManifest.xml
+@@ -1,5 +1,5 @@
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    package="com.calendarevents">
++    >
+ 
+     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+     <uses-permission android:name="android.permission.READ_CALENDAR" />
+diff --git a/node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/RNCalendarEvents.java b/node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/RNCalendarEvents.java
+index 782a0da..5f62451 100644
+--- a/node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/RNCalendarEvents.java
++++ b/node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/RNCalendarEvents.java
+@@ -1,4 +1,4 @@
+-package com.calendarevents;
++package com.react_native_calendar_events;
+ 
+ import android.app.Activity;
+ import android.content.ContentResolver;
+diff --git a/node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/RNCalendarEventsPackage.java b/node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/RNCalendarEventsPackage.java
+index df7caff..7a42e55 100644
+--- a/node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/RNCalendarEventsPackage.java
++++ b/node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/RNCalendarEventsPackage.java
+@@ -1,4 +1,4 @@
+-package com.calendarevents;
++package com.react_native_calendar_events;
+ 
+ import com.facebook.react.ReactPackage;
+ import com.facebook.react.bridge.NativeModule;

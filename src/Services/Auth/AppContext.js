@@ -3,7 +3,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useContext, useEffect } from 'react';
 import { APP_STATE } from '../../Store/Models/App';
 import useNetInfo from '../../Apollo/lib/NetInfo/NetInfo';
-import { CustomerIO, CustomerIOEnv, CustomerioConfig, Region } from 'customerio-reactnative';
+import { CustomerIO, CioLogLevel, CioRegion } from 'customerio-reactnative';
 import { customerIoUserIdetify } from '../../utils';
 import { getBiometricDetails } from '../biometric_utils';
 
@@ -33,18 +33,19 @@ export const AppContextProvider = ({ children }) => {
         setBiometricDetails: action.login.setBiometricDetails,
     }));
 
-    const customerIoInit = () => {
-        const data = new CustomerioConfig();
-        data.enableInApp = true;
-        // data.logLevel = CioLogLevel.debug
-        data.backgroundQueueSecondsDelay = 7200;
+      const customerIoInit = () => {
+        const config = {
+            cdpApiKey: '69bac83ed7a05c91e3fa',  // your CDP API key
+            region: CioRegion.US,               // or CioRegion.EU
+            logLevel: CioLogLevel.Debug,        // optional
+            trackApplicationLifecycleEvents: true,
+            inApp: {
+                siteId: '1bb433fc0bdf40326764',  // required if using in-app
+            },
+            backgroundQueueSecondsDelay: 7200,  // equivalent of old backgroundQueueSecondsDelay
+        };
 
-        const cioEnv = new CustomerIOEnv();
-
-        cioEnv.siteId = '1bb433fc0bdf40326764';
-        cioEnv.apiKey = '69bac83ed7a05c91e3fa';
-        cioEnv.region = Region.US;
-        CustomerIO.initialize(cioEnv, data);
+        CustomerIO.initialize(config);
     };
 
     useEffect(() => {
