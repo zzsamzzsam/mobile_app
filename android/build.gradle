@@ -10,8 +10,8 @@ buildscript {
         // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
         // ndkVersion = "23.1.7779620"
 
-        // Use NDK 26+, which supports 16 KB page sizes and modern architectures
-        ndkVersion = "26.3.11579264"
+        // Use NDK 28+, which supports 16 KB page sizes and modern architectures
+        ndkVersion = "29.0.14206865"
         kotlinVersion = "2.0.21"
     }
     repositories {
