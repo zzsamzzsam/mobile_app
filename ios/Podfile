@@ -39,6 +39,20 @@ target 'tpasc' do
       # :ccache_enabled => true
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
+
+    # Disable bitcode for ALL pods + your main target
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['ENABLE_BITCODE'] = 'NO'
+      end
+    end
+
+    # Some projects need this too (rare):
+    installer.aggregate_targets.each do |target|
+      target.user_project.build_configurations.each do |config|
+        config.build_settings['ENABLE_BITCODE'] = 'NO'
+      end
+    end
   end
 end
 
