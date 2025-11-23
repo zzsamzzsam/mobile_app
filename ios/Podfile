@@ -16,7 +16,7 @@ end
 
 target 'tpasc' do
   config = use_native_modules!
-  pod 'OneSignalXCFramework', '>= 3.0.0', '< 4.0'
+  pod 'OneSignalXCFramework', '~> 4.5.0'
   # Flags change depending on the env values.
   flags = get_default_flags()
 
@@ -53,13 +53,30 @@ target 'tpasc' do
         config.build_settings['ENABLE_BITCODE'] = 'NO'
       end
     end
+
+    one_signal_frameworks = %w[
+      OneSignal
+      OneSignalCore
+      OneSignalExtension
+      OneSignalOutcomes
+    ]
+
+    one_signal_frameworks.each do |framework|
+      device_path = "Pods/OneSignalXCFramework/#{framework}.xcframework/ios-arm64/#{framework}.framework/#{framework}"
+      if File.exist?(device_path)
+        system("xcrun bitcode_strip -r #{device_path} -o #{device_path}")
+        puts "Stripped #{framework}"
+      else
+        puts "NOT FOUND #{framework} at #{device_path}"
+      end
+    end
   end
 end
 
 target 'OneSignalNotificationServiceExtension' do
   # Comment the next line if you don't want to use dynamic frameworks
   # use_frameworks!
-  pod 'OneSignalXCFramework', '>= 3.0.0', '< 4.0'
+  pod 'OneSignalXCFramework', '~> 4.5.0'
 end
 
 
