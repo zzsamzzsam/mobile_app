@@ -37,8 +37,8 @@ if (Platform.OS === 'ios') {
   permissions.permissions = [
     {accessType: 'read', recordType: 'ActiveCaloriesBurned'},
     {accessType: 'read', recordType: 'HeartRate'},
-    {accessType: 'read', recordType: 'BloodPressure'},
-    {accessType: 'read', recordType: 'SleepSession'},
+    //{accessType: 'read', recordType: 'BloodPressure'},
+    //{accessType: 'read', recordType: 'SleepSession'},
     // {accessType: 'read', recordType: 'StepsCadence'},
     {accessType: 'read', recordType: 'Steps'},
     {accessType: 'read', recordType: 'TotalCaloriesBurned'},

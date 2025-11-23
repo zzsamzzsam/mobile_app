@@ -11,7 +11,7 @@ buildscript {
         // ndkVersion = "23.1.7779620"
 
         // Use NDK 28+, which supports 16 KB page sizes and modern architectures
-        ndkVersion = "29.0.14206865"
+        ndkVersion = "28.2.13676358"
         kotlinVersion = "2.0.21"
     }
     repositories {
