@@ -5,7 +5,7 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-platform :ios,  '14'
+platform :ios, '14'
 prepare_react_native_project!
 
 linkage = ENV['USE_FRAMEWORKS']
@@ -16,7 +16,8 @@ end
 
 target 'tpasc' do
   config = use_native_modules!
-  pod 'OneSignalXCFramework', '~> 4.5.0'
+  pod 'OneSignalXCFramework'
+
   # Flags change depending on the env values.
   flags = get_default_flags()
 
@@ -40,43 +41,16 @@ target 'tpasc' do
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
 
-    # Disable bitcode for ALL pods + your main target
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
         config.build_settings['ENABLE_BITCODE'] = 'NO'
       end
     end
 
-    # Some projects need this too (rare):
     installer.aggregate_targets.each do |target|
       target.user_project.build_configurations.each do |config|
         config.build_settings['ENABLE_BITCODE'] = 'NO'
       end
     end
-
-    one_signal_frameworks = %w[
-      OneSignal
-      OneSignalCore
-      OneSignalExtension
-      OneSignalOutcomes
-    ]
-
-    one_signal_frameworks.each do |framework|
-      device_path = "Pods/OneSignalXCFramework/#{framework}.xcframework/ios-arm64/#{framework}.framework/#{framework}"
-      if File.exist?(device_path)
-        system("xcrun bitcode_strip -r #{device_path} -o #{device_path}")
-        puts "Stripped #{framework}"
-      else
-        puts "NOT FOUND #{framework} at #{device_path}"
-      end
-    end
   end
 end
-
-target 'OneSignalNotificationServiceExtension' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  # use_frameworks!
-  pod 'OneSignalXCFramework', '~> 4.5.0'
-end
-
-
