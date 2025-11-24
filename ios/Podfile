@@ -54,3 +54,7 @@ target 'tpasc' do
     end
   end
 end
+
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignalXCFramework'
+end
