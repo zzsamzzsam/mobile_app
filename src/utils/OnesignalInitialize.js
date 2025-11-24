@@ -6,7 +6,8 @@ import { trackUserEvent } from '.';
 import { TrackingEventTypes } from '../constant';
 
 
-OneSignal.setAppId('10e010ca-398e-43ce-8347-2292a77d9b61');
+OneSignal.initialize('10e010ca-398e-43ce-8347-2292a77d9b61');
+// OneSignal.setAppId('10e010ca-398e-43ce-8347-2292a77d9b61');
 // OneSignal.setAppId('6cf62d65-a711-4b22-b8f1-a529fc531322');
 
 // Prompt for push notification permissions (optional)
