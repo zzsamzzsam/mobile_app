@@ -1,0 +1,83 @@
+workflows:
+  # -------------------------
+  # 1. BUILD ONLY WORKFLOW
+  # -------------------------
+  build_ipa:
+    name: Build iOS IPA (No Publishing)
+    environment:
+      xcode: latest
+      vars:
+        NODE_VERSION: "20"
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.tpasc
+
+    cache:
+      cache_paths:
+        - node_modules
+        - ios/Pods
+        - $HOME/Library/Caches/CocoaPods
+
+    scripts:
+      - name: Install dependencies
+        script: |
+          nvm install $NODE_VERSION
+          nvm use $NODE_VERSION
+          npm install
+
+      - name: Install CocoaPods
+        script: |
+          cd ios
+          pod install
+          cd ..
+
+      - name: Build IPA
+        script: |
+          cd ios
+          xcode-project build-ipa \
+            --workspace "tpasc.xcworkspace" \
+            --scheme "tpasc"
+          cd ..
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - $CM_BUILD_DIR/ios.xcarchive
+
+    publishing:
+      email:
+        recipients:
+          - "ziyao@agilex.ca"
+
+
+  # -------------------------------------
+  # 2. SUBMIT ONLY WORKFLOW (NO BUILDING)
+  # -------------------------------------
+  submit_to_store:
+    name: Submit Existing IPA to TestFlight / App Store
+    environment:
+      xcode: latest
+      vars:
+        IPA_PATH: "*.ipa"
+
+    scripts:
+      - name: Download artifact from last build
+        script: |
+          # This downloads from previous workflow artifacts on Codemagic
+          echo "Downloading IPA from previous build..."
+          cm-artifact pull \
+            --workflow build_ipa \
+            --name "*.ipa" \
+            --path .
+
+      - name: Display IPA list
+        script: |
+          echo "Found IPA files:"
+          ls -R .
+
+    publishing:
+      app_store_connect:
+        api_key: $APP_STORE_API_KEY
+        key_id: $APP_STORE_API_KEY_ID
+        issuer_id: $APP_STORE_API_ISSUER
+        submit_to_testflight: true
+        submit_to_app_store: false
