@@ -9,13 +9,14 @@ workflows:
       vars:
         NODE_VERSION: "20"
       ios_signing:
-        distribution_type: app-store
+        distribution_type: app_store
         bundle_identifier: com.tpasc
-      cache:
-        cache_paths:
-          - node_modules
-          - ios/Pods
-          - $HOME/Library/Caches/CocoaPods
+
+    cache:
+      cache_paths:
+        - node_modules
+        - ios/Pods
+        - $HOME/Library/Caches/CocoaPods
 
     scripts:
       - name: Install dependencies
