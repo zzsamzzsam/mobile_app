@@ -23,7 +23,7 @@ workflows:
         script: |
           nvm install $NODE_VERSION
           nvm use $NODE_VERSION
-          yarn install --frozen-lockfile || npm install
+          npm install
 
       - name: Install CocoaPods
         script: |
