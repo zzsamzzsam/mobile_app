@@ -19,14 +19,9 @@ workflows:
         - $HOME/Library/Caches/CocoaPods
 
     scripts:
-      - name: Enable Corepack + Yarn 4
-        script: |
-          corepack enable
-          corepack prepare yarn@4.9.2 --activate
-
       - name: Install dependencies
         script: |
-          npm install
+          yarn install --immutable
 
       - name: Install CocoaPods
         script: |
