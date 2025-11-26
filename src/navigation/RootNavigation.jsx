@@ -11,7 +11,7 @@ import NavigationService, { isMountedRef, navigationRef } from '.';
 import useAuth from '../Services/Auth';
 import BoardedStack from './BoardedStack';
 import { APP_STATE } from '../Store/Models/App';
-import OneSignalInitilize from '../utils/OnesignalInitialize';
+import OneSignalInitialize from '../utils/OnesignalInitialize';
 import { CustomerIO } from 'customerio-reactnative';
 import BiometricSetUpScreen from '../screens/OnBoarding/BiometricSetUpScreen';
 import AppText from '../components/common/Text';
@@ -34,7 +34,7 @@ const RootNavigation = () => {
 
   useEffect(() => {
     const userId = actualUser?._id || '';
-    OneSignalInitilize(userId);
+    //OneSignalInitialize(userId);
   }, [actualUser?._id]);
 
   const onAnimationFinished = useCallback(() => {
