@@ -34,7 +34,7 @@ const RootNavigation = () => {
 
   useEffect(() => {
     const userId = actualUser?._id || '';
-    //OneSignalInitialize(userId);
+    OneSignalInitialize(userId);
   }, [actualUser?._id]);
 
   const onAnimationFinished = useCallback(() => {
