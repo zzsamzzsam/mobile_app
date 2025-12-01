@@ -59,7 +59,7 @@ export const AudienceToTag = (_audience = '') => {
         case 'U of T Scarborough':
             return 'UTSC';
         default:
-            return 'All Access'
+            return 'All Access';
     }
 };
 
@@ -168,7 +168,5 @@ const viewFormatter = (num, digits) => {
         }
     }
     return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
-}
+};
 export default viewFormatter;
-
-

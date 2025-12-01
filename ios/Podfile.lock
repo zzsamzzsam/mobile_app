@@ -1425,6 +1425,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-maps (1.18.0):
+    - React-Core
   - react-native-netinfo (9.5.0):
     - React-Core
   - react-native-onesignal (5.2.14):
@@ -2166,6 +2168,7 @@ DEPENDENCIES:
   - "react-native-cookies (from `../node_modules/@react-native-cookies/cookies`)"
   - "react-native-device-brightness (from `../node_modules/@adrianso/react-native-device-brightness`)"
   - react-native-keyboard-controller (from `../node_modules/react-native-keyboard-controller`)
+  - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
   - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
@@ -2330,6 +2333,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@adrianso/react-native-device-brightness"
   react-native-keyboard-controller:
     :path: "../node_modules/react-native-keyboard-controller"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-onesignal:
@@ -2485,6 +2490,7 @@ SPEC CHECKSUMS:
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
   react-native-device-brightness: 886cfbfb49a32b6de4ccfc1f720776dc5f381d24
   react-native-keyboard-controller: e82fb81b7fbae4b5bdd254e538ec1f6a54ce1dbd
+  react-native-maps: 2e6e9896195781327ee15b33e3e84bf73c08207a
   react-native-netinfo: 48c5f79a84fbc3ba1d28a8b0d04adeda72885fa8
   react-native-onesignal: b68c981956150f288c1585889871affcef3c0b8b
   react-native-orientation-locker: 5819fd23ca89cbac0d736fb4314745f62716d517
@@ -2536,6 +2542,6 @@ SPEC CHECKSUMS:
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 78d74e245ed67bb94275a1316cdc170b9b7fe884
 
-PODFILE CHECKSUM: d44656f098c9ecb25f05c84bcc5f2a3bbc0e9682
+PODFILE CHECKSUM: d54866963b72075c1c8d9512975554882e1fa3db
 
 COCOAPODS: 1.16.2

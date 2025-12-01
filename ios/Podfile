@@ -17,7 +17,7 @@ end
 target 'tpasc' do
   config = use_native_modules!
   pod 'OneSignalXCFramework', '>= 5.0', '< 6.0'
-
+  
   # Flags change depending on the env values.
   flags = get_default_flags()
 
