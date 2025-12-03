@@ -35,8 +35,8 @@ export const AppContextProvider = ({ children }) => {
       const customerIoInit = () => {
         const config = {
             cdpApiKey: '69bac83ed7a05c91e3fa',  // your CDP API key
-            region: "US",               // or CioRegion.EU
-            //ogLevel: CioLogLevel.Debug,        // optional
+            region: CioRegion.US,               // or CioRegion.EU
+            logLevel: CioLogLevel.Debug,        // optional
             trackApplicationLifecycleEvents: true,
             inApp: {
                 siteId: '1bb433fc0bdf40326764',  // required if using in-app
@@ -50,7 +50,6 @@ export const AppContextProvider = ({ children }) => {
     useEffect(() => {
         const setupBiometricsDetails = async () => {
             const { available, biometryType } = await getBiometricDetails();
-            console.log('check-======', available, biometryType);
             setBiometricDetails({biometryType, available, biometryExist: !!biometricAuth});
         };
         setupBiometricsDetails();

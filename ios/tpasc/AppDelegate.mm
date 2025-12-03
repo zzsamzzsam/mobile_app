@@ -7,7 +7,6 @@
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNativeCrashes.h>
 #import <CodePush/CodePush.h>
-#import <OneSignalFramework/OneSignalFramework.h>
 
 @implementation AppDelegate
 
@@ -18,7 +17,7 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
-  [OneSignal initialize:@"10e010ca-398e-43ce-8347-2292a77d9b61" withLaunchOptions:launchOptions];
+
 //  PJManager *manager = [PJManager sharedManager];
 //  CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:manager queue:nil options:@{ CBCentralManagerOptionRestoreIdentifierKey : @"YourRestoreIdentifier" }];
 //

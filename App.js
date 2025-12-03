@@ -69,7 +69,7 @@ const Main = () => {
           </WaitForStateRehydration>
           <FlashMessage position="top" />
         </StoreProvider>
-      </ApolloProvider >
+      </ApolloProvider>
     </NetInfoProvider>
   );
 };
@@ -77,6 +77,13 @@ const ThemeConsumer = () => {
   // const { theme } = useAppTheme();
   const theme = extendTheme({})
   const checkForUpdate = async () => {
+    // skip if offline
+    const net = await NetInfo.fetch();
+    if (!net.isConnected) {
+      console.log('[CODEPUSH] skip check - offline');
+      return;
+    }
+    
     setIsCheckingForUpdate(true);
     try {
       const update = await codePush.checkForUpdate();
@@ -92,7 +99,8 @@ const ThemeConsumer = () => {
     setIsCheckingForUpdate(false)
   };
   useEffect(() => {
-    checkForUpdate();
+    const t = setTimeout(() => checkForUpdate(), 2000);
+    return () => clearTimeout(t);
   }, [])
   const [isCheckingForUpdate, setIsCheckingForUpdate] = useState(false);
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
