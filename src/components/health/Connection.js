@@ -34,6 +34,7 @@ import Devices from './Devices';
 import SurfaceBox from '../common/SurfaceBox';
 import ConnectionTimeline from './ConnectionTimeline';
 import IOSHelpModal from './IOSHelpModal';
+import ScrollWrapperX from './ScrollWrapperX';
 
 const Connection = ({isOpen, onDismiss}) => {
   const {
@@ -93,6 +94,28 @@ const Connection = ({isOpen, onDismiss}) => {
         syncToServer();
       }, 4000);
     }
+    try
+      {
+        let needsSync = false;
+        if (activeSource === HEALTH_SOURCES.WATCH && isWatchConnected) {
+          getDayData();
+          needsSync = true;
+        } else if (
+          activeSource === HEALTH_SOURCES.PLATFORM &&
+          platformHealthTurnedOn
+        ) {
+          await getDatas();
+          needsSync = true;
+        }
+        if (needsSync) {
+          setTimeout(() => {
+            console.log('syncing after 3 seconds');
+            syncToServer();
+          }, 4000);
+        }
+      }catch (error) {
+        console.log('[SYNC]: ' + error);
+      }
   }, [activeSource, syncToServer, isWatchConnected, platformHealthTurnedOn]);
   const onSourceChange = useCallback(
     _activeSource => {
@@ -115,12 +138,12 @@ const Connection = ({isOpen, onDismiss}) => {
     setIsWatchConnected(false);
     setActiveSource(null);
     setConnectionLogs([]);
-  }
+  };
   const handleOnCallingClose = () => {
     setHelpModalType(null);
     setIndex(2);
     startScan();
-  }
+  };
   useEffect(() => {
     syncData();
 
@@ -171,7 +194,7 @@ const Connection = ({isOpen, onDismiss}) => {
           </Text>
           {/* <MaterialCommunityIcons name="close-circle" size={25} color={colors.gray} /> */}
         </ViewX>
-        <BottomSheetScrollView style={styles.sheetContainer}>
+        <ScrollWrapperX style={styles.sheetContainer}>
           {/* <ViewX>
                     <ViewX flexRow justifyContent={"space-between"} style={styles.watchSwitchWrap}>
                         <Text style={globalStyles.boldText}>{Platform.OS === 'android' ? 'Google' : 'Apple'} Health</Text>
@@ -336,7 +359,7 @@ const Connection = ({isOpen, onDismiss}) => {
           )}
           <ConnectionTimeline data={connectionLogs} />
           {isScanning && <Devices />}
-        </BottomSheetScrollView>
+        </ScrollWrapperX>
       </BottomSheetModal>
       {!!helpModalType && <IOSHelpModal type={helpModalType} onClose={handleOnCallingClose} onConfirm={helpModalType === "disconnect" && handleDisconnect}/>}
     </ViewX>

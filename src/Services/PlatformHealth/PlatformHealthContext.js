@@ -215,6 +215,7 @@ export const PlatformHealthProvider = ({children}) => {
     console.log('main initialize called');
     const {success: availableSuccess, error: availableError} =
       await checkPlatformHealthAvailable();
+
     if (!availableSuccess) {
       showMessage({
         message: 'Error',
@@ -248,6 +249,7 @@ export const PlatformHealthProvider = ({children}) => {
       const oneDayAgo = startOfDay(currentDate);
       const oneWeekAgo = subWeeks(currentDate, 1);
       clearLogs();
+      
       if (Platform.OS === 'android') {
         return;
         // const TotalCaloriesBurned = await aggregateRecord(
@@ -344,6 +346,7 @@ export const PlatformHealthProvider = ({children}) => {
       }
       // oneDayAgo.setMonth(currentDate.getMonth() - 1);
       oneDayAgo.setDate(currentDate.getDate() - 1);
+      
       // An object that contains the move, exercise, and stand data for a given day.
       AppleHealthKit.getActivitySummary(
         {
@@ -351,15 +354,19 @@ export const PlatformHealthProvider = ({children}) => {
           endDate: new Date().toISOString(), // optional; default now
         },
         (error, results) => {
-          if (error) {
-            console.log('getActivitySummary error', error);
+          try {
+            if (error) {
+              console.log('getActivitySummary error', error);
+            }
+            // console.log('getActivitySummary are', results);
+            addLog({
+              type: 'getActivitySummary',
+              ...(error && {error}),
+              data: results,
+            });
+          } catch (err) {
+            console.error('[getActivitySummary] Exception during callback processing:', err);
           }
-          // console.log('getActivitySummary are', results);
-          addLog({
-            type: 'getActivitySummary',
-            ...(error && {error}),
-            data: results,
-          });
         },
       );
 
@@ -371,30 +378,34 @@ export const PlatformHealthProvider = ({children}) => {
           limit: 10,
         },
         (error, results) => {
-          if (error) {
-            console.log('getHeartRateSamples error', error);
+          try {
+            if (error) {
+              console.log('getHeartRateSamples error', error);
+            }
+            if (results && results.length) {
+              const last10 = results.reverse().slice(0, 10);
+              const max = Math.max(...last10.map(s => s.value));
+              const min = Math.min(...last10.map(s => s.value));
+              setSyncedData({
+                heart: {
+                  min: toFixed(min),
+                  max: toFixed(max),
+                  current: toFixed(results[0].value),
+                  history: last10.map(s => ({
+                    date: s.endDate || s.startDate,
+                    value: toFixed(s.value)
+                  })),
+                },
+              });
+            }
+            // addLog({
+            //   type: 'HeartRate',
+            //   ...(error && { error }),
+            //   data: results,
+            // });
+          } catch (err) {
+            console.error('[getHeartRateSamples] Exception during callback processing:', err);
           }
-          if (results && results.length) {
-            const last10 = results.reverse().slice(0, 10);
-            const max = Math.max(...last10.map(s => s.value));
-            const min = Math.min(...last10.map(s => s.value));
-            setSyncedData({
-              heart: {
-                min: toFixed(min),
-                max: toFixed(max),
-                current: toFixed(results[0].value),
-                history: last10.map(s => ({
-                  date: s.endDate || s.startDate,
-                  value: toFixed(s.value)
-                })),
-              },
-            });
-          }
-          // addLog({
-          //   type: 'HeartRate',
-          //   ...(error && { error }),
-          //   data: results,
-          // });
         },
       );
 
@@ -406,22 +417,26 @@ export const PlatformHealthProvider = ({children}) => {
           includeManuallyAdded: true,
         },
         (error, results) => {
-          if (error) {
-            console.log('getHeartRateSamples error', error);
+          try {
+            if (error) {
+              console.log('getHeartRateSamples error', error);
+            }
+            if (results && results.value) {
+              // console.log('DistanceWalkRun', results.value);
+              setSyncedData({
+                distance: {
+                  today: toFixed(results?.value)
+                },
+              });
+            }
+            // addLog({
+            //   type: 'Distance',
+            //   ...(error && {error}),
+            //   data: results,
+            // });
+          } catch (err) {
+            console.error('[getHeartRateSamples] Exception during callback processing:', err);
           }
-          if (results && results.value) {
-            // console.log('DistanceWalkRun', results.value);
-            setSyncedData({
-              distance: {
-                today: toFixed(results?.value)
-              },
-            });
-          }
-          // addLog({
-          //   type: 'Distance',
-          //   ...(error && {error}),
-          //   data: results,
-          // });
         },
       );
 
@@ -433,21 +448,31 @@ export const PlatformHealthProvider = ({children}) => {
           endDate: new Date().toISOString(),
         },
         (error, results) => {
-          if (error) {
-            console.log('getDailyStepCountSamples error', error);
+          try {
+            if (error) {
+              console.warn('[getDatas] getDailyStepCountSamples error:', error);
+              return;
+            }
+            if (!Array.isArray(results) || results.length === 0) {
+              console.warn('[getDatas] Invalid or empty results from getDailyStepCountSamples:', results);
+              setSyncedData({ steps: { current: 0, history: [] } });
+              return;
+            }
+            
+            setSyncedData({
+              steps: {
+                current: toFixed(results[0]?.value || 0),
+                history: results.map(s => ({
+                  date: s.endDate || s.startDate,
+                  start: s.startDate,
+                  end: s.endDate,
+                  value: toFixed(s.value || 0),
+                })),
+              },
+            });
+          } catch (err) {
+            console.error('[getDatas] Exception in getDailyStepCountSamples callback:', err);
           }
-          // console.log('Apple daily steps', results?.length);
-          setSyncedData({
-            steps: {
-              current: toFixed(results[0].value),
-              history: results.map(s => ({
-                date: s.endDate || s.startDate,
-                start: s.startDate,
-                end: s.endDate,
-                value: toFixed(s.value),
-              })),
-            },
-          });
           // addLog({
           //   type: 'StepsPerDay',
           //   ...(error && {error}),
@@ -466,71 +491,75 @@ export const PlatformHealthProvider = ({children}) => {
           includeManuallyAdded: true,
         },
         (error, results) => {
-          if (error) {
-            console.log('getActiveEnergyBurned error', error);
-          }
-          // console.log('getActiveEnergyBurned are', results);
-          // console.log('energyburned are', results?.length);
-          if (results && results.length) {
-            let totalBurned = 0;
-            const history = results
-              .filter(s =>
-                moment(s.endDate || s.startDate)?.isSame(moment(), 'day'),
-              )
-              .map(s => {
-                totalBurned += s.value;
-                return {
-                  date: s.endDate || s.startDate,
-                  value: s.value,
-                };
+          try {
+            if (error) {
+              console.log('getActiveEnergyBurned error', error);
+            }
+            // console.log('getActiveEnergyBurned are', results);
+            // console.log('energyburned are', results?.length);
+            if (results && results.length) {
+              let totalBurned = 0;
+              const history = results
+                .filter(s =>
+                  moment(s.endDate || s.startDate)?.isSame(moment(), 'day'),
+                )
+                .map(s => {
+                  totalBurned += s.value;
+                  return {
+                    date: s.endDate || s.startDate,
+                    value: s.value,
+                  };
+                });
+
+              setSyncedData({
+                calories: {
+                  current: toFixed(results[0].value),
+                  history,
+                  today: toFixed(totalBurned)
+                },
               });
+            }
+            // else {
+            //   showMessage({
+            //     message: 'Faking',
+            //     description: 'No HeartData so faking',
+            //     type: 'danger',
+            //     icon: 'danger',
+            //   });
+            //   setSyncedData({
+            //     calories: {
+            //       current: 72,
+            //       history: [
+            //         {
+            //           date: "2024-02-02T17:55:00.000-0400",
+            //           value: 72
+            //         },
+            //         {
+            //           date: "2024-02-02T17:55:00.000-0400",
+            //           value: 85
+            //         },
+            //         {
+            //           date: "2024-02-02T17:55:00.000-0400",
+            //           value: 100
+            //         },
+            //         {
+            //           date: "2024-02-02T17:55:00.000-0400",
+            //           value: 89
+            //         },
+            //       ],
+            //       today: 500,
+            //     },
 
-            setSyncedData({
-              calories: {
-                current: toFixed(results[0].value),
-                history,
-                today: toFixed(totalBurned)
-              },
-            });
+            //   });
+            // }
+            // addLog({
+            //   type: 'activeEnergyBurned',
+            //   ...(error && { error }),
+            //   data: results,
+            // });
+          } catch (err) {
+            console.error('[getActiveEnergyBurned] Exception during callback processing:', err);
           }
-          // else {
-          //   showMessage({
-          //     message: 'Faking',
-          //     description: 'No HeartData so faking',
-          //     type: 'danger',
-          //     icon: 'danger',
-          //   });
-          //   setSyncedData({
-          //     calories: {
-          //       current: 72,
-          //       history: [
-          //         {
-          //           date: "2024-02-02T17:55:00.000-0400",
-          //           value: 72
-          //         },
-          //         {
-          //           date: "2024-02-02T17:55:00.000-0400",
-          //           value: 85
-          //         },
-          //         {
-          //           date: "2024-02-02T17:55:00.000-0400",
-          //           value: 100
-          //         },
-          //         {
-          //           date: "2024-02-02T17:55:00.000-0400",
-          //           value: 89
-          //         },
-          //       ],
-          //       today: 500,
-          //     },
-
-          //   });
-          // }
-          // addLog({
-          //   type: 'activeEnergyBurned',
-          //   ...(error && { error }),
-          //   data: results,
-          // });
         },
       );
       // Get the aggregated total steps for a specific day (starting and ending at midnight).
@@ -542,18 +571,22 @@ export const PlatformHealthProvider = ({children}) => {
           includeManuallyAdded: true,
         },
         (error, results) => {
-          if (error) {
-            console.log('getStepCount error', error);
+          try {
+            if (error) {
+              console.log('getStepCount error', error);
+            }
+            // console.log('getStepCount are', results);
+            setSyncedData({
+              stepsToday: toFixed(results?.value),
+            });
+            addLog({
+              type: 'aggregatedStepsFor Today',
+              ...(error && {error}),
+              data: results,
+            });
+          } catch (err) {
+            console.error('[getStepCount] Exception during callback processing:', err);
           }
-          // console.log('getStepCount are', results);
-          setSyncedData({
-            stepsToday: toFixed(results?.value),
-          });
-          addLog({
-            type: 'aggregatedStepsFor Today',
-            ...(error && {error}),
-            data: results,
-          });
         },
       );
 
@@ -566,15 +599,19 @@ export const PlatformHealthProvider = ({children}) => {
           ascending: true, // optional; default false
         },
         (error, results) => {
-          if (error) {
-            console.log('getSleepSamples error', error);
+          try {
+            if (error) {
+              console.log('getSleepSamples error', error);
+            }
+            // console.log('getSleepSamples are', results?.length);
+            // addLog({
+            //   type: 'sleepSamples',
+            //   ...(error && {error}),
+            //   data: results,
+            // });
+          } catch (err) {
+            console.error('[getSleepSamples] Exception during callback processing:', err);
           }
-          // console.log('getSleepSamples are', results?.length);
-          // addLog({
-          //   type: 'sleepSamples',
-          //   ...(error && {error}),
-          //   data: results,
-          // });
         },
       );
     } catch (e) {

@@ -33,6 +33,8 @@ import PadWrapper from '../common/PadWrapper';
 import WebviewComponent from '../../screens/Misc/WebviewComponent';
 import { GET_LEADERBOARDS } from '../../Apollo/Queries';
 import { useQuery } from '@apollo/client';
+import ScrollWrapperX from './ScrollWrapperX';
+
 const { width } = Dimensions.get('window');
 // const challenges = [{
 //   name: "Olympic Cycling Challenge",
@@ -104,17 +106,17 @@ const LeadersBoardModal = ({isOpen, onDismiss}) => {
   const handleChallengePress = (challenge, x) => {
 
     let originalChallenges = optedChallenges ? [...optedChallenges] : [];
-    console.log('hahaha', x, originalChallenges)
+    console.log('hahaha', x, originalChallenges);
     if (!x) {
-      originalChallenges = originalChallenges.filter(s => s !== challenge)
+      originalChallenges = originalChallenges.filter(s => s !== challenge);
     } else {
-      originalChallenges.push(challenge)
+      originalChallenges.push(challenge);
     }
     trackCustomer({
       optedChallenges: originalChallenges,
     });
     setOptedChallenges(originalChallenges);
-  }
+  };
   const namings = useMemo(() => {
     if(actualUser?.firstName && actualUser?.lastName) {
       const firstName = actualUser?.firstName.split(' ')[0];
@@ -134,7 +136,7 @@ const LeadersBoardModal = ({isOpen, onDismiss}) => {
           format1,
           format2,
           format3
-      ]
+      ];
     } else {
       return [];
     }
@@ -205,7 +207,7 @@ const LeadersBoardModal = ({isOpen, onDismiss}) => {
           </Text> */}
           {/* <MaterialCommunityIcons name="close-circle" size={25} color={colors.gray} /> */}
         </ViewX>
-        {!viewingChallenge && <BottomSheetScrollView style={styles.sheetContainer}>
+        {!viewingChallenge && <ScrollWrapperX style={styles.sheetContainer}>
           <Image
                 // width={width}
                 style={{  width: width, height: (width * 480 / 760), resizeMode: 'cover'}}
@@ -450,7 +452,7 @@ const LeadersBoardModal = ({isOpen, onDismiss}) => {
             </ViewX>}
             <Divider />
           </ViewX>
-        </BottomSheetScrollView>}
+        </ScrollWrapperX>}
         {!!viewingChallenge && <WebviewComponent title={viewingChallenge.name} origin={viewingChallenge.link} />}
         {!!viewingChallenge && <Pressable style={{ position: 'absolute', left: 10, top: 0, backgroundColor: colors.secondary }} onPress={() => setViewingChallenge(null)}>
           <MaterialCommunityIcons name="chevron-left" size={25} color={colors.primary} />

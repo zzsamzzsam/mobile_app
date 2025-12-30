@@ -25,8 +25,9 @@ import { rnBiometrics } from '../Services/biometric_utils';
 const LoginForm = () => {
   const navigation = useNavigation();
 
-  const { setUserToken, setAppState, setIsVideoCookieClear, setIsBiometricAsked, loginUserWithBiometric, setBiometricAuth } = useStoreActions(action => ({
+  const { setUserToken, setActualUser, setAppState, setIsVideoCookieClear, setIsBiometricAsked, loginUserWithBiometric, setBiometricAuth } = useStoreActions(action => ({
     setUserToken: action.login.setUserToken,
+    setActualUser: action.login.setActualUser,
     setAppState: action.app.setAppState,
     setIsVideoCookieClear: action.login.setIsVideoCookieClear,
     setIsBiometricAsked: action.login.setIsBiometricAsked,
@@ -107,6 +108,14 @@ const LoginForm = () => {
           setUserToken(data?.ezClientApplogin?.jwt);
           setIsVideoCookieClear(true);
           await AsyncStorage.setItem('token', data?.ezClientApplogin?.jwt);
+          
+          // const user = data?.ezClientApplogin || null;
+          // await AsyncStorage.setItem('token', data?.ezClientApplogin?.jwt);
+          delete user?.jwt;
+          setActualUser(user);
+          
+          
+          
           if (data?.ezClientApplogin?.isAppBoarded) {
             setAppState(APP_STATE.HOME);
           } else {

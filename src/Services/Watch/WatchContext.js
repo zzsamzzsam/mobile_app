@@ -49,8 +49,8 @@ export const WatchContextProvider = ({ children }) => {
   const { setSyncedData } = useStoreActions(action => action.health);
   const { synced } = useStoreState(state => state.health);
   const checkExisting = () => {
-    return  existingHeartHistory = synced?.heart?.history || [];
-  }
+    return existingHeartHistory = synced?.heart?.history || [];
+  };
   const measureAllData = () => {
     if (Platform.OS === 'ios') {
       setIsMeasuring(true);
@@ -180,7 +180,8 @@ export const WatchContextProvider = ({ children }) => {
         DDataListner,
         SQL_LOGSListner
       ];
-    } else {
+    }
+    else {
       const devicesListener = eventEmitter.addListener(
         'BluetoothDeviceFound',
         event => {
@@ -604,6 +605,7 @@ export const WatchContextProvider = ({ children }) => {
     }
   };
   const getDayData = () => {
+    console.log('Before getDayData');
     if (Platform.OS === 'ios') {
       RM.getDayData();
     } else {
@@ -611,6 +613,7 @@ export const WatchContextProvider = ({ children }) => {
       // RM.getTotalSportData();
       // RM.scanDevices(false); // TODO:
     }
+    console.log('After getDayData');
   };
   const reconnectLastDevice = async () => {
     try {
