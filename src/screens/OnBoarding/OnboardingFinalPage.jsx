@@ -27,9 +27,11 @@ const OnboardingFinalPage = () => {
     const [updateAppBoardedMutation] = useMutation(UPDATE_APP_BOAEDED);
     const finishAndGoHome = async () => {
         setLoading(true);
-        await updateAppBoardedMutation({
+        const result = await updateAppBoardedMutation({
             refetchQueries: [{ query: GET_ME_USER }],
+            awaitRefetchQueries: true, // wait for the refetch result
         });
+
         trackUserEvent(TrackingEventTypes?.onboarding_finish, {
             message: 'User onboarding finish',
         });
@@ -37,7 +39,6 @@ const OnboardingFinalPage = () => {
         navigation.navigate(Routes.MAINSTACK);
         setLoading(false);
     };
-
 
     return (
         <Box style={styles.container}>

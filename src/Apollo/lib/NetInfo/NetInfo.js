@@ -4,27 +4,20 @@ import NetInfo from "@react-native-community/netinfo";
 
 const inititalState = {
     type: null,
-    effectiveType: null
+    effectiveType: null,
+    isConnected: false
 };
 
 const useNetInfo = () => {
     const [netInfo, setNetInfo] = useState(inititalState);
 
-    const onChange = newState => {
-        setNetInfo(newState);
-    };
-
     useEffect(() => {
-        NetInfo.fetch().then(connectionInfo => {
-            setNetInfo(connectionInfo);
+        const unsubscribe = NetInfo.addEventListener(state => {
+            setNetInfo(state);
         });
-    }, []);
-
-    useEffect(() => {
-        const unsubscriber = NetInfo.addEventListener(onChange);
 
         return () => {
-            unsubscriber();
+            unsubscribe();
         };
     }, []);
 

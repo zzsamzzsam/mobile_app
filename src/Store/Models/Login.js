@@ -44,9 +44,9 @@ const LoginModel = persist({
         state.updateUserFlag = !state?.updateUserFlag;
     }),
     fetchUser: thunk(async (actions, payload, helpers) => {
-        const { app: { setAppState } } = helpers.getStoreActions();
-        const { login: { actualUser, userToken } } = helpers.getStoreState();
-        const { token } = payload;
+        const storeActions = helpers.getStoreActions();
+        const token = payload.token;
+        
         try {
             const { data } = await client.query({
                 query: GET_ME_USER,
@@ -56,28 +56,24 @@ const LoginModel = persist({
                     },
                 },
             });
-            if (!data?.meAppUser) {
-                throw new Error("User not found");
-            }
-            // console.log('the---', token)
-            actions.setActualUser(data?.meAppUser);
-            if (!data?.meAppUser?.isAppBoarded) {
-                setAppState(APP_STATE.UNBOARDING);
+            
+            const user = data?.meAppUser;
+            if (!user) throw new Error("User not found");
+
+            actions.setActualUser(user);
+
+            if (user.isAppBoarded) {
+                storeActions.app.setAppState(APP_STATE.HOME);
             } else {
-                setAppState(APP_STATE.HOME);
+                storeActions.app.setAppState(APP_STATE.UNBOARDING);
             }
         } catch (err) {
-            if (!!userToken && !!actualUser) {
-                if (actualUser?.isAppBoarded) {
-                    setAppState(APP_STATE.HOME);
-                } else {
-                    setAppState(APP_STATE.UNBOARDING);
-                }
-            } else {
-                setAppState(APP_STATE.LOGIN);
+            console.error("Release fetchUser Error:", err);
+
+            const state = helpers.getStoreState();
+            if (!state.login.userToken) {
+                storeActions.app.setAppState(APP_STATE.LOGIN);
             }
-            // console.log("Error fetchUser", err.toString());
-            // throw new Error(err.toString());
         }
     }),
     loginUserWithBiometric: thunk(async (actions, payload, helpers) => {
@@ -170,7 +166,6 @@ const LoginModel = persist({
 },
     {
         allow: ['actualUser', 'userToken', 'isBiometricAsked', 'biometricDetails', 'biometricAuth'],
-        deny: ['setActualUser', 'loginAppUser', 'setUserToken', 'fetchUser', 'logoutUser', 'fetchActualUser', 'setBiometricAuth'],
         storage: AppAsyncStorage,
     });
 
