@@ -6,7 +6,7 @@
 #import <AppCenterReactNative.h>
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNativeCrashes.h>
-#import <CodePush/CodePush.h>
+//#import <CodePush/CodePush.h>
 
 @implementation AppDelegate
 
@@ -38,7 +38,7 @@
   // return [CodePush bundleURL];
 #else
   // return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-  return [CodePush bundleURL];
+  //return [CodePush bundleURL];
 #endif
 }
 
