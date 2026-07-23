@@ -39,6 +39,7 @@ const InputA = ({ label, value, type, onFocus, style, containerStyle, onChangeTe
                     onFocus={onFocus}
                     onChangeText={onChangeText}
                     placeholderTextColor={colors.gray}
+                    color={colors.black}
                     {...other}
                 />
             </View>
@@ -82,6 +83,7 @@ export const PasswordInputA = ({ label, value, type, onFocus, style, onChangeTex
                     onFocus={onFocus}
                     onChangeText={onChangeText}
                     placeholderTextColor={colors.gray}
+                    color={colors.black}
                     {...other}
                 />
                 <TouchableOpacity onPress={() => setShow(!show)}>
