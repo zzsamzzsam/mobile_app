@@ -13,7 +13,9 @@
     "url": "https://u.expo.dev/9d4dfc8f-03aa-486e-89bd-166f7f490115"
   },
   "android": {},
-  "ios": {},
+  "ios": {
+    "scheme": "tpasc"
+  },
   "plugins": [
     "@sentry/react-native"
   ]
