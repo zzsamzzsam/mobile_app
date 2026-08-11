@@ -20,7 +20,6 @@
 		9EA0B3CE1F4B731DEA7E284E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9C80006F7F0779B5B07D30CB /* PrivacyInfo.xcprivacy */; };
 		B04818529ABC4814A8A801EB /* GothamBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CC8D224509E4D6EB0275BC0 /* GothamBold.ttf */; };
 		C64886202BB5DD200026DCD1 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = C648861F2BB5DD200026DCD1 /* AppCenter-Config.plist */; };
-		C656AB9B2A70A06E00D69BE8 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C656AB9A2A70A06E00D69BE8 /* main.jsbundle */; };
 		C69118A82A66787100D54096 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C69118952A66787100D54096 /* Fontisto.ttf */; };
 		C69118A92A66787100D54096 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C69118962A66787100D54096 /* Octicons.ttf */; };
 		C69118AA2A66787100D54096 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C69118972A66787100D54096 /* Feather.ttf */; };
@@ -103,7 +102,6 @@
 		A8A461BE66904384B2E2FEB9 /* GothamBook.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GothamBook.ttf; path = ../assets/fonts/GothamBook.ttf; sourceTree = "<group>"; };
 		AD69C8207A4C466EAD3D1868 /* GothamLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GothamLight.ttf; path = ../assets/fonts/GothamLight.ttf; sourceTree = "<group>"; };
 		C648861F2BB5DD200026DCD1 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "tpasc/AppCenter-Config.plist"; sourceTree = "<group>"; };
-		C656AB9A2A70A06E00D69BE8 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; name = main.jsbundle; path = tpasc/main.jsbundle; sourceTree = "<group>"; };
 		C69118872A66701D00D54096 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		C69118892A66701D00D54096 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C69118912A6671B300D54096 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
@@ -226,7 +224,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				C656AB9A2A70A06E00D69BE8 /* main.jsbundle */,
 				C69118942A66787100D54096 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* tpasc */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -432,7 +429,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C656AB9B2A70A06E00D69BE8 /* main.jsbundle in Resources */,
 				C69118B32A66787100D54096 /* FontAwesome5_Regular.ttf in Resources */,
 				C69118A82A66787100D54096 /* Fontisto.ttf in Resources */,
 				C69118AD2A66787100D54096 /* FontAwesome5_Brands.ttf in Resources */,
@@ -491,7 +487,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT \\\"/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode.sh $REACT_NATIVE_XCODE\\\"\"\n\nexport NODE_BINARY=\"/Users/nirmalkhanal/.nvm/versions/node/v16.20.0/bin/node\"\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT \\\"/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode.sh $REACT_NATIVE_XCODE\\\"\"\n\nexport NODE_BINARY=node\n";
 		};
 		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -721,7 +717,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.114;
+				MARKETING_VERSION = 1.116;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -759,7 +755,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.114;
+				MARKETING_VERSION = 1.116;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
