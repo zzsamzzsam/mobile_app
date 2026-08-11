@@ -46,6 +46,12 @@ target 'tpasc' do
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
         config.build_settings['ENABLE_BITCODE'] = 'NO'
+
+        # === fix fmt 11.0.2 consteval error ===
+        if target.name == 'fmt'
+          config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'
+        end
+        # =====================================
       end
     end
 

@@ -1,4 +1,22 @@
 {
   "name": "tpasc",
-  "displayName": "tpasc"
+  "displayName": "tpasc",
+  "extra": {
+    "eas": {
+      "projectId": "9d4dfc8f-03aa-486e-89bd-166f7f490115"
+    }
+  },
+  "owner": "tpasc-agilex",
+  "slug": "tpasc-mobile-app",
+  "runtimeVersion": "1.0.0",
+  "updates": {
+    "url": "https://u.expo.dev/9d4dfc8f-03aa-486e-89bd-166f7f490115"
+  },
+  "android": {},
+  "ios": {
+    "scheme": "tpasc"
+  },
+  "plugins": [
+    "@sentry/react-native"
+  ]
 }

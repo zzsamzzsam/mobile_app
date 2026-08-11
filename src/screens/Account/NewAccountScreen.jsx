@@ -26,7 +26,6 @@ import { trackUserEvent } from '../../utils';
 import { TrackingEventTypes } from '../../constant';
 import { RESTART_UNBOARDING } from '../../Apollo/Mutations';
 import { showMessage } from 'react-native-flash-message';
-import codePush from 'react-native-code-push';
 
 const CheckBoxMarkedIcon = ({ size = 14 }) => {
     return <Icons name="checkbox-marked-outline" color={colors.primary} size={size} />
@@ -42,6 +41,7 @@ const NewAccountScreen = () => {
     const [restartUnBoardingMutation] = useMutation(RESTART_UNBOARDING, {
         refetchQueries: [{ query: GET_ME_USER }],
     });
+    /*
     const [codePushVersion, setCodePushVersion] = useState(null);
     const getCodePushVersion = async () => {
       try {
@@ -54,9 +54,9 @@ const NewAccountScreen = () => {
       } catch (error) {
         console.error('Error getting CodePush version:', error);
       }
-    };
+    };*/
     useEffect(() => {
-      getCodePushVersion();
+      //getCodePushVersion();
     }, []);
     const [restartLoading, setRestartLoading] = useState(false);
     const { showAllowedScheduleByBarcode, userToken } = useStoreState(state => ({
@@ -144,11 +144,12 @@ const NewAccountScreen = () => {
                             text={`Since ${moment(userData?.meAppUser?.membershipSince || userData?.meAppUser?.createdAt).format('YYYY-MM-DD')}`}
                             style={{ color: colors.white }}
                         />
-                        <AppText
+                        
+                        {/* <AppText
                             style={{ color: colors.white }}
                         >
                             OTA Version: {codePushVersion}
-                        </AppText>
+                        </AppText> */}
                     </Box>
                 </LinearGradient>
             </Box>

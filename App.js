@@ -22,7 +22,6 @@ import { PlatformHealthProvider } from './src/Services/PlatformHealth/PlatformHe
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
-import codePush from "react-native-code-push";
 import ButtonX from './src/components/common/BottonX';
 import { ChatProvider } from './src/Services/Chat/ChatProvider';
 
@@ -80,11 +79,12 @@ const ThemeConsumer = () => {
     // skip if offline
     const net = await NetInfo.fetch();
     if (!net.isConnected) {
-      console.log('[CODEPUSH] skip check - offline');
+      //console.log('[CODEPUSH] skip check - offline');
       return;
     }
     
     setIsCheckingForUpdate(true);
+    /*
     try {
       const update = await codePush.checkForUpdate();
       if (!update) {
@@ -96,6 +96,7 @@ const ThemeConsumer = () => {
     } catch (error) {
       console.error('Error checking for update:', error);
     }
+      */
     setIsCheckingForUpdate(false)
   };
   useEffect(() => {
@@ -105,11 +106,12 @@ const ThemeConsumer = () => {
   const [isCheckingForUpdate, setIsCheckingForUpdate] = useState(false);
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
   const handleUpdate = async () => {
+    /*
     try {
       await codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
     } catch (error) {
       console.error('Error updating:', error);
-    }
+    }*/
     setIsUpdateAvailable(false);
     setIsCheckingForUpdate(false);
   };
@@ -166,4 +168,5 @@ const ThemeConsumer = () => {
 };
 // let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
-export default Sentry.wrap(codePush(Main));
+export default Sentry.wrap(Main);
+//export default Sentry.wrap(codePush(Main));

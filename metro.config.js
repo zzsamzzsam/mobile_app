@@ -1,19 +1,7 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+// 1. Import getSentryExpoConfig instead of vanilla expo / dist tools
+const { getSentryExpoConfig } = require("@sentry/react-native/metro");
 
-const {
- createSentryMetroSerializer
-} = require("@sentry/react-native/dist/js/tools/sentryMetroSerializer");
+// 2. This automatically sets up both Expo and Sentry configurations safely
+const config = getSentryExpoConfig(__dirname);
 
-/**
- * Metro configuration
- * https://reactnative.dev/docs/metro
- *
- * @type {import('metro-config').MetroConfig}
- */
-const config = {
- serializer: {
-  customSerializer: createSentryMetroSerializer()
- }
-};
-
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+module.exports = config;

@@ -35,15 +35,15 @@ if (Platform.OS === 'ios') {
   };
 } else {
   permissions.permissions = [
-    {accessType: 'read', recordType: 'ActiveCaloriesBurned'},
-    {accessType: 'read', recordType: 'HeartRate'},
+    //{accessType: 'read', recordType: 'ActiveCaloriesBurned'},
+    //{accessType: 'read', recordType: 'HeartRate'},
     //{accessType: 'read', recordType: 'BloodPressure'},
     //{accessType: 'read', recordType: 'SleepSession'},
     // {accessType: 'read', recordType: 'StepsCadence'},
-    {accessType: 'read', recordType: 'Steps'},
-    {accessType: 'read', recordType: 'TotalCaloriesBurned'},
-    {accessType: 'read', recordType: 'Distance'},
-    {accessType: 'read', recordType: 'ExerciseSession'},
+    //{accessType: 'read', recordType: 'Steps'},
+    //{accessType: 'read', recordType: 'TotalCaloriesBurned'},
+    //{accessType: 'read', recordType: 'Distance'},
+    //{accessType: 'read', recordType: 'ExerciseSession'},
   ];
 }
 const PlatformHealthStateContext = React.createContext({
