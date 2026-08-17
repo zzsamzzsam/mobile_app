@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import DeviceInfo from "react-native-device-info";
 import colors from "../themes/Colors";
-import { CustomerIO } from "customerio-reactnative";
+// import { CustomerIO } from "customerio-reactnative";
 
 export const ItemColor = (item) => {
     let color = colors.purple;
@@ -127,7 +127,7 @@ export const customerIoUserIdetify = async (user) => {
 };
 
 export const trackUserEvent = (eventName, data) => {
-    CustomerIO.track(eventName, data);
+    // CustomerIO.track(eventName, data);
 };
 
 export const checkCreditCardType = (cardNumber) => {

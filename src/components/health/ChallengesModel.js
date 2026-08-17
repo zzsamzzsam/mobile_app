@@ -26,7 +26,7 @@ import {
 } from 'react-native-paper';
 import { Select} from 'native-base';
 import AppText from '../common/Text';
-import {CustomerIO} from 'customerio-reactnative';
+// import {CustomerIO} from 'customerio-reactnative';
 import AvatarPicker from './AvatarPicker';
 import ButtonX from '../common/BottonX';
 import PadWrapper from '../common/PadWrapper';
@@ -104,9 +104,9 @@ const ChallengesModel = ({isOpen, onDismiss}) => {
   const trackCustomer = useCallback(
     (trackData = {}) => {
       if (actualUser._id) {
-        CustomerIO.identify(actualUser._id, {
-          ...trackData,
-        });
+        // CustomerIO.identify(actualUser._id, {
+        //   ...trackData,
+        // });
       }
     },
     [actualUser],

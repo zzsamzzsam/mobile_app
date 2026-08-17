@@ -12,7 +12,7 @@ import useAuth from '../Services/Auth';
 import BoardedStack from './BoardedStack';
 import { APP_STATE } from '../Store/Models/App';
 import OneSignalInitialize from '../utils/OnesignalInitialize';
-import { CustomerIO } from 'customerio-reactnative';
+// import { CustomerIO } from 'customerio-reactnative';
 import BiometricSetUpScreen from '../screens/OnBoarding/BiometricSetUpScreen';
 import AppText from '../components/common/Text';
 
@@ -57,7 +57,7 @@ const RootNavigation = () => {
         const currentRouteName = navigationRef.getCurrentRoute().name;
 
         if (previousRouteName !== currentRouteName) {
-          CustomerIO.screen(currentRouteName);
+          // CustomerIO.screen(currentRouteName);
         }
         isMountedRef.current = currentRouteName;
       }}>

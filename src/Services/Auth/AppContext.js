@@ -3,8 +3,8 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import React, { useContext, useEffect } from 'react';
 import { APP_STATE } from '../../Store/Models/App';
 import useNetInfo from '../../Apollo/lib/NetInfo/NetInfo';
-import { CustomerIO, CioLogLevel, CioRegion } from 'customerio-reactnative';
-import { customerIoUserIdetify } from '../../utils';
+//import { CustomerIO, CioLogLevel, CioRegion } from 'customerio-reactnative';
+//import { customerIoUserIdetify } from '../../utils';
 import { getBiometricDetails } from '../biometric_utils';
 
 const AppStateContext = React.createContext(null);
@@ -32,6 +32,7 @@ export const AppContextProvider = ({ children }) => {
         setBiometricDetails: action.login.setBiometricDetails,
     }));
 
+    /*
       const customerIoInit = () => {
         const config = {
             cdpApiKey: '69bac83ed7a05c91e3fa',  // your CDP API key
@@ -46,6 +47,7 @@ export const AppContextProvider = ({ children }) => {
 
         CustomerIO.initialize(config);
     };
+    */
 
     useEffect(() => {
         const setupBiometricsDetails = async () => {
@@ -56,14 +58,17 @@ export const AppContextProvider = ({ children }) => {
     }, [userToken, biometricAuth, setBiometricDetails]);
 
 
+    /*
     useEffect(() => {
         customerIoInit();
     }, [userToken]);
+    */
+
     useEffect(() => {
         if (userToken) {
             if (isConnected) {
                 fetchUser({ token: userToken });
-                customerIoUserIdetify(actualUser);
+                //customerIoUserIdetify(actualUser);
             } else {
                 if (!!actualUser && actualUser?.isAppBoarded) {
                     setAppState(APP_STATE.HOME);

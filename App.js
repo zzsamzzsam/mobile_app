@@ -24,6 +24,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
 import ButtonX from './src/components/common/BottonX';
 import { ChatProvider } from './src/Services/Chat/ChatProvider';
+import NetInfo from '@react-native-community/netinfo';
 
 Sentry.init({
   dsn: "https://d0a103e93b52d5aa872274079099a2b4@o4506701917782016.ingest.sentry.io/4506781005643776",
