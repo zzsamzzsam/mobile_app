@@ -16,6 +16,9 @@ import metrics from '../../themes/Metrics';
 import Fonts from '../../themes/Fonts';
 import { showCardType } from '../../utils';
 import {useAppState} from '@react-native-community/hooks';
+import QRCode from 'react-native-qrcode-svg';
+import DeviceInfo from 'react-native-device-info';
+import { GET_ME_USER } from '../../Apollo/Queries';
 
 const WIDTH = Dimensions.get('window').width - 40;
 const HEIGHT = Dimensions.get('window').height;
@@ -30,6 +33,35 @@ const SwipableBarcodeView = () => {
         fetchPolicy: 'network-only'
     });
     const [intervalId, setIntervalId] = useState(null);
+    const [generatedQRCodes, setGeneratedQRCodes] = useState({});
+    const [deviceId, setDeviceId] = useState(null);
+
+    const { data: userData, loading } = useQuery(GET_ME_USER);
+
+    useEffect(() => {
+        const loadDeviceId = async () => {
+            const id = await DeviceInfo.getUniqueId();
+
+            setDeviceId(id);
+        };
+
+        loadDeviceId();
+    }, []);
+
+    const generateQRCode = (barcode) => {
+        const qrData = {
+            Barcode: barcode,
+            Barcodes: data?.appBarcode?.map(item => item.barcode),
+            timestamp: Date.now(),
+            PushId: deviceId,
+            userId: userData?.meAppUser?.clientId,
+        };
+
+        setGeneratedQRCodes(prev => ({
+            ...prev,
+            [barcode]: qrData,
+        }));
+    };
 
     useEffect(() => {
       const startInterval = () => {
@@ -102,9 +134,61 @@ const SwipableBarcodeView = () => {
         )
     }, []);
 
+    const _renderItemQR = useCallback(({ item, index }) => {
+        const qrData = generatedQRCodes[item.barcode];
+
+        return (
+            <Box
+                style={{
+                    width: '100%',
+                    minHeight: 250,
+                    paddingVertical: 20,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: colors.homeBg,
+                }}
+            >
+                {!qrData ? (
+                    <Button
+                        onPress={() => generateQRCode(item.barcode)}
+                    >
+                        Generate QR Code
+                    </Button>
+                ) : (
+                    <>
+                        <QRCode
+                            value={JSON.stringify(qrData)}
+                            size={250}
+                            backgroundColor="white"
+                            color="black"
+                        />
+
+                        <Button
+                            onPress={() => generateQRCode(item.barcode)}
+                            style={{ marginTop: 20 }}
+                        >
+                            Regenerate QR Code
+                        </Button>
+                    </>
+                )}
+            </Box>
+        );
+    }, [generatedQRCodes, generateQRCode]);
+
+    if (loading || !userData || !deviceId) {
+        <LoadingCircle />;
+    }
     return (
         <Box>
-            <Box style={{ height: 200 }}>
+            <Box
+                style={{
+                    paddingVertical: 20,
+                    minHeight: 200,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: colors.homeBg,
+                }}
+            >
                 {
                     barcodeLoading ? (
                         <LoadingCircle />
@@ -112,16 +196,26 @@ const SwipableBarcodeView = () => {
                         (data?.appBarcode && data?.appBarcode?.length > 0) ? (
                             <Animated.FlatList
                                 data={data?.appBarcode}
+                                extraData={generatedQRCodes}
                                 horizontal
                                 scrollEnabled={false}
                                 showsHorizontalScrollIndicator={false}
                                 // onScroll={({ nativeEvent }) => onchange(nativeEvent)}
                                 ref={scrollViewRef}
                                 pagingEnabled
-                                renderItem={_renderItem}
+                                renderItem={_renderItemQR}
                             />
                         ) : (
-                            <Box style={{ height: '100%', justifyContent: 'center', backgroundColor: colors.homeBg, alignItems: 'center' }}>
+                            <Box
+                                style={{
+                                    width: '100%',
+                                    minHeight: 200,
+                                    paddingVertical: 20,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    backgroundColor: colors.homeBg,
+                                }}
+                            >
                                 <AppText
                                     text="Barcode not linked yet."
                                     fontSize={16}

@@ -16,17 +16,19 @@ import Fonts from '../../themes/Fonts';
 
 const BarcodeComponent = () => {
   const navigation = useNavigation();
-  const { data: userData } = useQuery(GET_ME_USER);
-  const [deviceBrightnessLevel, setDeviceBrightnessLevel] = useState(0);
+  // const { data: userData } = useQuery(GET_ME_USER);
+  // const [deviceBrightnessLevel, setDeviceBrightnessLevel] = useState(0);
 
   useFocusEffect(
     React.useCallback(() => {
+      /*
       const getDefaultDeviceBrightnessLevel = async () => {
         const result = await DeviceBrightness.getSystemBrightnessLevel();
         setDeviceBrightnessLevel(result);
       };
 
       getDefaultDeviceBrightnessLevel();
+      */
       DeviceBrightness.setBrightnessLevel(1.0);
 
       return () => DeviceBrightness.setBrightnessLevel(isIos ? 0.5 : -1);
