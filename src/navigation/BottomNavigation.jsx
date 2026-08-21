@@ -66,6 +66,19 @@ const BottomNavigation = ({ navigation }) => {
     );
   };
 
+  const getQRCodeIcon = focused => {
+    const scale = focused ? 1.2 : 1;
+    return (
+      <Animated.View style={{ transform: [{ scale }] }}>
+        <Icon
+          name={focused ? 'qrcode-scan' : 'qrcode-scan'}
+          size={20}
+          color={focused ? colors.secondary : colors.primary}
+        />
+      </Animated.View>
+    );
+  };
+
   const getScheduleIcon = focused => {
     const scale = focused ? 1.2 : 1;
     return (
@@ -174,11 +187,11 @@ const BottomNavigation = ({ navigation }) => {
         name={Routes.BARCODE}
         component={BarcodeScreen}
         options={{
-          title: 'Barcode',
+          title: 'QR Code',
           headerShown: true,
           headerTitle: () => <TopLogo />,
           headerTitleAlign: 'center',
-          tabBarIcon: ({focused}) => getBarcodeIcon(focused),
+          tabBarIcon: ({focused}) => getQRCodeIcon(focused),
         }}
       />
       <Tab.Screen

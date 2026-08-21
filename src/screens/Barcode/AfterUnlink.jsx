@@ -45,9 +45,9 @@ const AfterUnlink = () => {
     if (!barcode) {
       showMessage({
         message: 'Error',
-        description: 'baroce already deleted',
-        type: 'dander',
-        icon: 'dander',
+        description: 'membership already deleted',
+        type: 'danger',
+        icon: 'danger',
       });
       navigation.goBack()
     }
@@ -56,7 +56,7 @@ const AfterUnlink = () => {
         await AsyncStorage.removeItem('Barcode');
         showMessage({
           message: 'Success',
-          description: 'Barcode deleted successfully',
+          description: 'Membership deleted successfully',
           type: 'success',
           icon: 'success',
         });
@@ -69,7 +69,7 @@ const AfterUnlink = () => {
         });
         showMessage({
           message: 'Success',
-          description: 'Barcode deleted successfully',
+          description: 'Membership deleted successfully',
           type: 'success',
           icon: 'success',
         });
@@ -79,7 +79,7 @@ const AfterUnlink = () => {
       console.log('Error on unlink barcode', e.toString()),
         showMessage({
           message: 'Error',
-          description: e?.message || 'Unable to delete barcode',
+          description: e?.message || 'Unable to delete membership',
           type: 'danger',
           icon: 'danger',
         });
@@ -98,18 +98,19 @@ const AfterUnlink = () => {
             <LoadingCircle />
           ) : (
             <Box>
-              <AppText color={colors.primary} style={{ textAlign: 'center' }}>{showCardType(barcode?.message?.trim())}</AppText>
-              <Barcode
+              <AppText color={colors.primary} style={{ textAlign: 'center' }} text={showCardType(barcode?.message?.trim())} />
+              <AppText color={colors.primary} style={{ textAlign: 'center' }} text={barcode?.barcode} />
+              {/* <Barcode
                 format="CODE128"
                 value={barcode.barcode}
                 text={barcode.barcode}
                 background="none"
-              />
+              /> */}
             </Box>
           )}
         </Box>
         <ButtonX
-          title="Delete Barcode"
+          title="Delete Membership"
           isLoading={loading}
           isLoadingText='Deleting'
           onPress={() => deleteBarcode(barcode.barcodeId, barcodeType)}

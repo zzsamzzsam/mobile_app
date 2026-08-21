@@ -106,7 +106,7 @@ const HomeGreetings = ({ name, membershipSince, lastCheckIn, membershipStatus })
                   style={[styles.viewAccountBoxHalf]}
                   onPress={onShowBarcodePress}>
                   <CommunityIcons
-                    name="barcode-scan"
+                    name="qrcode-scan"
                     color={colors.white}
                     size={30}
                   />

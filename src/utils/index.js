@@ -89,6 +89,8 @@ export const showCardType = (type) => {
             return 'City Card';
         case 'Valid Leagues/Events':
             return 'Leagues/Events Card';
+        case 'Valid Membership':
+            return 'TPASC Membership Card';
         default:
             return;
     }

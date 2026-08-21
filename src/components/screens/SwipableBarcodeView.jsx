@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet, Animated } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button } from 'native-base';
 import Barcode from '@kichiyaki/react-native-barcode-generator';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation, useFocusEffect } from '@react-navigation/native';
 import LoadingCircle from '../LoadingCircle';
 import Routes from '../../navigation/Routes';
 import AppText from '../common/Text';
@@ -37,6 +37,14 @@ const SwipableBarcodeView = () => {
     const [deviceId, setDeviceId] = useState(null);
 
     const { data: userData, loading } = useQuery(GET_ME_USER);
+    
+    useFocusEffect(
+        React.useCallback(() => {
+            setGeneratedQRCodes({});
+
+            return () => {};
+        }, [])
+    );
 
     useEffect(() => {
         const loadDeviceId = async () => {
@@ -217,7 +225,7 @@ const SwipableBarcodeView = () => {
                                 }}
                             >
                                 <AppText
-                                    text="Barcode not linked yet."
+                                    text="Memberships not linked yet."
                                     fontSize={16}
                                     style={{ textAlign: 'center' }}
                                 />
@@ -278,7 +286,7 @@ const SwipableBarcodeView = () => {
                 {
                     (!!data?.appBarcode && !data?.appBarcode?.length <= 0) && (
                         <ButtonX
-                            title="Unlink Barcode"
+                            title="Unlink Membership"
                             onPress={() => navigation.navigate(Routes.UNLINKBARCODE, { barcode: data?.appBarcode[active] })}
                             style={{ width: '100%', marginTop: metrics.s20, backgroundColor: colors.danger }}
                         />
