@@ -35,9 +35,19 @@ const SwipableBarcodeView = () => {
     const [intervalId, setIntervalId] = useState(null);
     const [generatedQRCodes, setGeneratedQRCodes] = useState({});
     const [deviceId, setDeviceId] = useState(null);
+    const [qrCooldowns, setQrCooldowns] = useState({});
+    const [currentTime, setCurrentTime] = useState(Date.now());
 
     const { data: userData, loading } = useQuery(GET_ME_USER);
     
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime(Date.now());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     useFocusEffect(
         React.useCallback(() => {
             setGeneratedQRCodes({});
@@ -57,10 +67,31 @@ const SwipableBarcodeView = () => {
     }, []);
 
     const generateQRCode = (barcode) => {
+        const now = Date.now();
+        const existingCooldown = qrCooldowns[barcode];
+
+        if (existingCooldown && now < existingCooldown.cooldownUntil){
+            return;
+        }
+
+        const hasTimedOut = existingCooldown && now - existingCooldown.lastGenerated >= 10 * 60 * 1000;
+
+        let cooldownSeconds = 60;
+
+        if (!hasTimedOut && existingCooldown) {
+            if (existingCooldown.cooldownSeconds === 60) {
+                cooldownSeconds = 120;
+            } else if (existingCooldown.cooldownSeconds === 120) {
+                cooldownSeconds = 180;
+            } else {
+                cooldownSeconds = 300;
+            }
+        }
+
         const qrData = {
             Barcode: barcode,
             Barcodes: data?.appBarcode?.map(item => item.barcode),
-            timestamp: Date.now(),
+            timestamp: now,
             PushId: deviceId,
             userId: userData?.meAppUser?.clientId,
         };
@@ -68,6 +99,15 @@ const SwipableBarcodeView = () => {
         setGeneratedQRCodes(prev => ({
             ...prev,
             [barcode]: qrData,
+        }));
+
+        setQrCooldowns(prev => ({
+            ...prev,
+            [barcode]: {
+                cooldownUntil: now + cooldownSeconds * 1000,
+                cooldownSeconds: cooldownSeconds,
+                lastGenerated: now,
+            },
         }));
     };
 
@@ -144,6 +184,11 @@ const SwipableBarcodeView = () => {
 
     const _renderItemQR = useCallback(({ item, index }) => {
         const qrData = generatedQRCodes[item.barcode];
+        const cooldown = qrCooldowns[item.barcode];
+
+        const remainingSeconds = cooldown ? Math.max(0, Math.ceil((cooldown.cooldownUntil - currentTime) / 1000)) : 0;
+
+        const isCoolingDown = remainingSeconds > 0;
 
         return (
             <Box
@@ -159,6 +204,7 @@ const SwipableBarcodeView = () => {
                 {!qrData ? (
                     <Button
                         onPress={() => generateQRCode(item.barcode)}
+                        style={{ backgroundColor: colors.primary }}
                     >
                         Generate QR Code
                     </Button>
@@ -166,16 +212,19 @@ const SwipableBarcodeView = () => {
                     <>
                         <QRCode
                             value={JSON.stringify(qrData)}
-                            size={250}
+                            size={180}
                             backgroundColor="white"
                             color="black"
                         />
 
                         <Button
+                            disabled={isCoolingDown}
                             onPress={() => generateQRCode(item.barcode)}
-                            style={{ marginTop: 20 }}
+                            style={{ marginTop: 20, backgroundColor: isCoolingDown ? colors.gray : colors.primary }}
                         >
-                            Regenerate QR Code
+                            {isCoolingDown
+                                ? `Regenerate QR Code (${remainingSeconds}s)`
+                                : 'Regenerate QR Code'}
                         </Button>
                     </>
                 )}
