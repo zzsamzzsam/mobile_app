@@ -45,6 +45,7 @@
 		FA5404622EDCDF8D00E5EB3F /* RNFitPro.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A91DBB2B311348007B90CD /* RNFitPro.m */; };
 		FA5404712EDD467500E5EB3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5404702EDD467500E5EB3F /* AppDelegate.swift */; };
 		FA7ED2F52ED4BEBB00D4D7F8 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FA7ED2EE2ED4BEBB00D4D7F8 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FABC00D7306373AF0045739E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABC00D6306373AF0045739E /* SceneDelegate.swift */; };
 		FE8979C5D2BE4EE3AEE52E7C /* GothamBookItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AE86725A5EB4FC1A5760E01 /* GothamBookItalic.ttf */; };
 /* End PBXBuildFile section */
 
@@ -136,6 +137,7 @@
 		FA5404652EDCE82B00E5EB3F /* libCustomerIOCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libCustomerIOCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5404702EDD467500E5EB3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = tpasc/AppDelegate.swift; sourceTree = "<group>"; };
 		FA7ED2EE2ED4BEBB00D4D7F8 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		FABC00D6306373AF0045739E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 		13B07FAE1A68108700A75B9A /* tpasc */ = {
 			isa = PBXGroup;
 			children = (
+				FABC00D6306373AF0045739E /* SceneDelegate.swift */,
 				FA5404702EDD467500E5EB3F /* AppDelegate.swift */,
 				C648861F2BB5DD200026DCD1 /* AppCenter-Config.plist */,
 				C69118922A6671CA00D54096 /* tpasc.entitlements */,
@@ -497,9 +500,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tpasc/Pods-tpasc-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tpasc/Pods-tpasc-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -572,9 +579,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tpasc/Pods-tpasc-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tpasc/Pods-tpasc-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -617,6 +628,7 @@
 			files = (
 				FA5404712EDD467500E5EB3F /* AppDelegate.swift in Sources */,
 				FA5404622EDCDF8D00E5EB3F /* RNFitPro.m in Sources */,
+				FABC00D7306373AF0045739E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,10 +850,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -910,10 +919,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

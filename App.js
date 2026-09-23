@@ -140,10 +140,11 @@ const ThemeConsumer = () => {
               {/* </SafeAreaView> */}
             </BottomSheetModalProvider>
           </GestureHandlerRootView>
+          {(isUpdateAvailable || isCheckingForUpdate) && (
           <Modal
             animationType="slide"
             transparent={true}
-            visible={isUpdateAvailable || isCheckingForUpdate}
+            visible={true}
             style={{ height: 100 }}
             onRequestClose={closeUpdateModal}
             onDismiss={closeUpdateModal}
@@ -162,6 +163,7 @@ const ThemeConsumer = () => {
               )}
             </View>
           </Modal>
+          )}
         </Provider>
       </NativeBaseProvider>
     </SafeAreaProvider>
