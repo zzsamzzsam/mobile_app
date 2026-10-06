@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Linking, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import Routes from '../../navigation/Routes';
@@ -110,6 +110,7 @@ const TakeStudentId = () => {
 
 
   return (
+    /*
     <KeywordAvoidingViewX>
       <ContainerBox>
         <AppText
@@ -141,6 +142,35 @@ const TakeStudentId = () => {
         />
       </ContainerBox>
     </KeywordAvoidingViewX>
+    */
+    <ContainerBox>
+      <AppText
+        text="UTSC Students"
+        style={styles.heading}
+      />
+
+      <AppText
+        text="Starting this Fall, we are switching to a new TAP access for students who wish to access the Toronto Pan Am Sports Centre. This TAP access will require users to have a physical TCard each visit. The TPASC app will be transitioned out and will no longer be available as of Friday, September 25."
+        style={styles.body}
+      />
+
+      <AppText
+        text="If you have any questions, please contact us at"
+        style={[styles.body, { marginTop: metrics.s20 }]}
+      />
+
+      <TouchableOpacity onPress={() => Linking.openURL('mailto:athletics[.utsc@utoronto.ca](mailto:.utsc@utoronto.ca)')}>
+        <AppText
+          text="athletics.utsc@utoronto.ca"
+          style={[styles.body, styles.emailLink]}
+        />
+      </TouchableOpacity>
+
+      <AppText
+        text="UTSC Athletics & Recreation team"
+        style={[styles.body, { marginTop: metrics.s20 }]}
+      />
+    </ContainerBox>
   );
 };
 
@@ -150,5 +180,16 @@ const styles = StyleSheet.create({
   heading: {
     textAlign: 'center',
     fontSize: metrics.s20,
+  },
+
+  body: {
+    fontSize: metrics.s16,
+    lineHeight: metrics.s24,
+    color: colors.black,
+    marginTop: metrics.s20,
+  },
+
+  emailLink: {
+    textDecorationLine: 'underline',
   },
 });
