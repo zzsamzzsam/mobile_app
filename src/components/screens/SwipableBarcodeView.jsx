@@ -24,6 +24,22 @@ const WIDTH = Dimensions.get('window').width - 40;
 const HEIGHT = Dimensions.get('window').height;
 
 const SwipableBarcodeView = () => {
+    const checkForUpdate = async () => {
+  try {
+    const result = await Updates.checkForUpdateAsync();
+
+    console.log('Update check result:', result);
+
+    if (result.isAvailable) {
+      console.log('An update is available!');
+    } else {
+      console.log('No update available.');
+    }
+  } catch (error) {
+    console.error('Update check failed:', error);
+  }
+};
+
     const navigation = useNavigation();
     const [active, setActive] = useState(0);
     const scrollViewRef = useRef(null);
@@ -47,14 +63,6 @@ const SwipableBarcodeView = () => {
 
         return () => clearInterval(interval);
     }, []);
-
-    useFocusEffect(
-        React.useCallback(() => {
-            setGeneratedQRCodes({});
-
-            return () => {};
-        }, [])
-    );
 
     useEffect(() => {
         const loadDeviceId = async () => {
@@ -201,6 +209,8 @@ const SwipableBarcodeView = () => {
                     backgroundColor: colors.homeBg,
                 }}
             >
+                <AppText color={colors.primary} style={{ textAlign: 'center' }} text={showCardType(item.message?.trim())} />
+                <AppText color={colors.primary} style={{ textAlign: 'center', marginBottom: 20 }} text={item.barcode} />
                 {!qrData ? (
                     <Button
                         onPress={() => generateQRCode(item.barcode)}
