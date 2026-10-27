@@ -1,6 +1,7 @@
 package com.tpasc
 
 import android.app.Application
+import android.content.res.Configuration
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
@@ -11,27 +12,15 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.soloader.SoLoader
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
+import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
-import expo.modules.adapters.react.ModuleRegistryAdapter
-import expo.modules.adapters.react.ReactModuleRegistryProvider
-import expo.modules.ExpoModulesPackageList
 
 class MainApplication : Application(), ReactApplication {
 
   private val defaultReactNativeHost: ReactNativeHost =
     object : DefaultReactNativeHost(this) {
       override fun getPackages(): List<ReactPackage> =
-        PackageList(this).packages.apply {
-          add(
-            ModuleRegistryAdapter(
-              ReactModuleRegistryProvider(
-                ExpoModulesPackageList.getPackageList(),
-                null
-              ),
-              ExpoModulesPackageList()
-            )
-          )
-        }
+        PackageList(this).packages
 
       override fun getJSMainModuleName(): String = "index"
 
@@ -61,5 +50,12 @@ class MainApplication : Application(), ReactApplication {
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       load()
     }
+
+    ApplicationLifecycleDispatcher.onApplicationCreate(this)
+  }
+
+  override fun onConfigurationChanged(newConfig: Configuration) {
+    super.onConfigurationChanged(newConfig)
+    ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
   }
 }

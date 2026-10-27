@@ -17,7 +17,7 @@ plugins {
 }
 
 extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
-    ex.autolinkLibrariesFromCommand()
+    ex.autolinkLibrariesFromCommand(expoAutolinking.rnConfigCommand)
 }
 
 expoAutolinking.useExpoModules()
