@@ -1,52 +1,60 @@
 import UIKit
+import Expo
 import React
-import React_RCTAppDelegate
 import ReactAppDependencyProvider
 import PJSDK
 
 @main
-class AppDelegate: RCTAppDelegate {
-  override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    self.moduleName = "tpasc"
-    self.dependencyProvider = RCTAppDependencyProvider()
-    self.initialProps = [:]
+class AppDelegate: ExpoAppDelegate {
+  var window: UIWindow?
+  var reactNativeDelegate: ExpoReactNativeFactoryDelegate?
+  var reactNativeFactory: RCTReactNativeFactory?
 
-    self.automaticallyLoadReactNativeWindow = false
+  override func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+  ) -> Bool {
+    let delegate = ReactNativeDelegate()
+    let factory = ExpoReactNativeFactory(delegate: delegate)
+    delegate.dependencyProvider = RCTAppDependencyProvider()
+    reactNativeDelegate = delegate
+    reactNativeFactory = factory
+    bindReactNativeFactory(factory)
 
     let manager = PJManager.shared()
     manager?.initBlueTooth()
-    
+
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
   func createRNRootViewController() -> UIViewController {
-      let rootViewController = UIViewController()
-      rootViewController.view.backgroundColor = .systemBackground // Prevents flashes of black/white during load
-      
-    guard let moduleName = self.moduleName else {
-            print("Error: moduleName is nil")
-            return rootViewController
-        }
-    
-    let rnView = self.rootViewFactory().view(withModuleName: moduleName, initialProperties: self.initialProps)
-    
+    let rootViewController = UIViewController()
+    rootViewController.view.backgroundColor = .systemBackground
+
+    guard let factory = reactNativeFactory else {
+      fatalError("React Native factory has not been initialized")
+    }
+
+    let rnView = factory.rootViewFactory.view(
+      withModuleName: "tpasc",
+      initialProperties: [:]
+    )
     rnView.translatesAutoresizingMaskIntoConstraints = false
     rootViewController.view.addSubview(rnView)
-    
-    rootViewController.view.addSubview(rnView)
-        rnView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-          rnView.topAnchor.constraint(equalTo: rootViewController.view.topAnchor),
-          rnView.bottomAnchor.constraint(equalTo: rootViewController.view.bottomAnchor),
-          rnView.leadingAnchor.constraint(equalTo: rootViewController.view.leadingAnchor),
-          rnView.trailingAnchor.constraint(equalTo: rootViewController.view.trailingAnchor)
-        ])
-      
-      return rootViewController
-  }
+    NSLayoutConstraint.activate([
+      rnView.topAnchor.constraint(equalTo: rootViewController.view.topAnchor),
+      rnView.bottomAnchor.constraint(equalTo: rootViewController.view.bottomAnchor),
+      rnView.leadingAnchor.constraint(equalTo: rootViewController.view.leadingAnchor),
+      rnView.trailingAnchor.constraint(equalTo: rootViewController.view.trailingAnchor)
+    ])
 
+    return rootViewController
+  }
+}
+
+class ReactNativeDelegate: ExpoReactNativeFactoryDelegate {
   override func sourceURL(for bridge: RCTBridge) -> URL? {
-    self.bundleURL()
+    bridge.bundleURL ?? bundleURL()
   }
 
   override func bundleURL() -> URL? {

@@ -7,9 +7,10 @@
     },
     "owner": "tpasc-agilex",
     "slug": "tpasc-mobile-app",
-    "runtimeVersion": "1.1.0",
+    "runtimeVersion": "1.1.2",
     "updates": {
-      "url": "https://u.expo.dev/9d4dfc8f-03aa-486e-89bd-166f7f490115"
+      "url": "https://u.expo.dev/9d4dfc8f-03aa-486e-89bd-166f7f490115",
+      "fallbackToCacheTimeout": 30000
     },
     "android": {},
     "ios": {

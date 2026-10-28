@@ -7,6 +7,8 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
+require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
+
 platform :ios, '15.2'
 prepare_react_native_project!
 
@@ -17,6 +19,7 @@ if linkage != nil
 end
 
 target 'tpasc' do
+  use_expo_modules!
   config = use_native_modules!
   pod 'OneSignalXCFramework', '>= 5.0', '< 6.0'
   
