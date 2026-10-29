@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from 'react';
-import { Modal, View, Text, Button, ActivityIndicator } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Alert, Linking, Platform } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './src/Apollo/apolloClient';
+import { GET_CURRENT_APP_VERSION } from './src/Apollo/Queries';
 import { StoreProvider, useStoreRehydrated } from 'easy-peasy';
 import { AppContextProvider } from './src/Services/Auth/AppContext';
 import { NativeBaseProvider, extendTheme, useColorMode } from 'native-base';
@@ -11,7 +12,7 @@ import RootNavigation from './src/navigation/RootNavigation';
 import createStore from './src/Store';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Orientation from 'react-native-orientation-locker';
-import colors from './src/themes/Colors';
+import appConfig from './app.json';
 import { Appearance, StatusBar } from 'react-native';
 import { ThemeProvider } from './src/themes/Context/ThemeContext';
 import useAppTheme from './src/themes/Context';
@@ -22,9 +23,9 @@ import { PlatformHealthProvider } from './src/Services/PlatformHealth/PlatformHe
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
-import ButtonX from './src/components/common/BottonX';
 import { ChatProvider } from './src/Services/Chat/ChatProvider';
 import NetInfo from '@react-native-community/netinfo';
+import * as Updates from 'expo-updates';
 
 Sentry.init({
   dsn: "https://d0a103e93b52d5aa872274079099a2b4@o4506701917782016.ingest.sentry.io/4506781005643776",
@@ -76,50 +77,98 @@ const Main = () => {
 const ThemeConsumer = () => {
   // const { theme } = useAppTheme();
   const theme = extendTheme({})
-  const checkForUpdate = async () => {
-    // skip if offline
-    const net = await NetInfo.fetch();
-    if (!net.isConnected) {
-      //console.log('[CODEPUSH] skip check - offline');
+  const updatesState = Updates.useUpdates();
+  const promptedUpdateId = useRef(null);
+  useEffect(() => {
+    if (!Updates.isEnabled || !updatesState.isUpdatePending) {
       return;
     }
-    
-    setIsCheckingForUpdate(true);
-    /*
+
+    const updateId = updatesState.downloadedUpdate?.updateId || 'pending';
+    if (promptedUpdateId.current === updateId) {
+      return;
+    }
+    promptedUpdateId.current = updateId;
+
+    Alert.alert(
+      'Update ready',
+      'A new version is ready to install. Restart the app now to apply it?',
+      [
+        { text: 'Later', style: 'cancel' },
+        {
+          text: 'Restart now',
+          onPress: () => {
+            Updates.reloadAsync().catch(error => {
+              console.error('Unable to restart with the downloaded update:', error);
+              Sentry.captureException(error);
+              Alert.alert(
+                'Unable to restart',
+                'The update is downloaded. Close and reopen the app to apply it.',
+              );
+            });
+          },
+        },
+      ],
+    );
+  }, [updatesState.isUpdatePending, updatesState.downloadedUpdate?.updateId]);
+
+  const checkForUpdate = async () => {
     try {
-      const update = await codePush.checkForUpdate();
-      if (!update) {
-        console.log("App is up to date");
-      } else {
-        setIsUpdateAvailable(true);
-        handleUpdate();
+      const net = await NetInfo.fetch();
+      if (!net.isConnected) {
+        return;
+      }
+
+      const { data } = await client.query({
+        query: GET_CURRENT_APP_VERSION,
+        fetchPolicy: 'network-only',
+      });
+      const serverRuntimeVersion = data?.getCurrentAppVersion?.version;
+      const localRuntimeVersion = appConfig.runtimeVersion;
+
+      if (typeof serverRuntimeVersion !== 'string' || !serverRuntimeVersion.trim()) {
+        throw new Error('GetCurrentAppVersion returned an empty or invalid runtime version.');
+      }
+
+      if (!localRuntimeVersion) {
+        throw new Error('The app runtimeVersion is missing from app.json.');
+      }
+
+      if (serverRuntimeVersion.trim() !== localRuntimeVersion.trim()) {
+        const storeUrl = Platform.OS === 'ios'
+          ? 'https://apps.apple.com/ca/app/tpasc/id6451323229'
+          : 'https://play.google.com/store/apps/details?id=com.tpasc';
+        Alert.alert(
+          'Update available',
+          `This app version (${localRuntimeVersion}) is out of sync. The current version is ${serverRuntimeVersion}. Update the app for the latest version.`,
+          [
+            { text: 'Later', style: 'cancel' },
+            {
+              text: 'Update',
+              onPress: () => {
+                Linking.openURL(storeUrl).catch(error => {
+                  console.error('Unable to open the app store:', error);
+                  Sentry.captureException(error);
+                });
+              },
+            },
+          ],
+        );
+      }
+      else {
+        console.log('App runtime version is up to date.');
       }
     } catch (error) {
-      console.error('Error checking for update:', error);
+      console.error('Error checking the app runtime version:', error);
+      Sentry.captureException(error);
     }
-      */
-    setIsCheckingForUpdate(false)
   };
   useEffect(() => {
-    const t = setTimeout(() => checkForUpdate(), 2000);
+    const t = setTimeout(() => {
+      checkForUpdate();
+    }, 2000);
     return () => clearTimeout(t);
   }, [])
-  const [isCheckingForUpdate, setIsCheckingForUpdate] = useState(false);
-  const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
-  const handleUpdate = async () => {
-    /*
-    try {
-      await codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
-    } catch (error) {
-      console.error('Error updating:', error);
-    }*/
-    setIsUpdateAvailable(false);
-    setIsCheckingForUpdate(false);
-  };
-  const closeUpdateModal = () => {
-    setIsUpdateAvailable(false);
-    setIsCheckingForUpdate(false);
-  }
   return (
     <SafeAreaProvider>
       <NativeBaseProvider theme={theme}>
@@ -140,30 +189,6 @@ const ThemeConsumer = () => {
               {/* </SafeAreaView> */}
             </BottomSheetModalProvider>
           </GestureHandlerRootView>
-          {(isUpdateAvailable || isCheckingForUpdate) && (
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={true}
-            style={{ height: 100 }}
-            onRequestClose={closeUpdateModal}
-            onDismiss={closeUpdateModal}
-          >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: isCheckingForUpdate ? 'transparent' : 'rgba(0, 0, 0, 0.5)' }}>
-              {isCheckingForUpdate ? (
-                <ActivityIndicator size="large" color="#fff" />
-              ) : (
-                <View style={{ padding: 20, backgroundColor: colors.secondary, borderRadius: 10 }}>
-                  <Text style={{ fontSize: 18, marginBottom: 10, color: colors.primary }}>Update Available</Text>
-                  <Text style={{ marginBottom: 20, color: colors.primary }}>A new version of the app is available and downloading in background.</Text>
-                  {/* <Button title="Update" onPress={handleUpdate} /> */}
-                  <ActivityIndicator size="large" color="#fff" />
-                  <ButtonX onPress={closeUpdateModal} title={"close"} style={{ marginTop: 10 }} />
-                </View>
-              )}
-            </View>
-          </Modal>
-          )}
         </Provider>
       </NativeBaseProvider>
     </SafeAreaProvider>

@@ -148,7 +148,7 @@ const NewAccountScreen = () => {
                         { <AppText
                             style={{ color: colors.white }}
                         >
-                            OTA Version: v1.1.2.0
+                            OTA Version: v1.2.1
                         </AppText> }
                     </Box>
                 </LinearGradient>

@@ -218,6 +218,7 @@ const BottomNavigation = ({ navigation }) => {
           tabBarIcon: ({focused}) => getFitnessIcon(focused),
         }}
       />
+      {/* 
       <Tab.Screen
         name={Routes.GETFITTAB}
         component={GetFitTopTabs}
@@ -230,6 +231,7 @@ const BottomNavigation = ({ navigation }) => {
           tabBarIcon: ({focused}) => getVideoIcon(focused),
         }}
       />
+      */}
       {/* <Tab.Screen
         name={Routes.FOOD}
         component={FoodTopNab}

@@ -99,6 +99,7 @@ const HomeGreetings = ({ name, membershipSince, lastCheckIn, membershipStatus })
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: 0,
+                minWidth: 120,
               }}>
               {/* <View style={[styles.viewAccountBox, {backgroundColor: 'green'}]}> */}
               <HStack style={{justifyContent: 'space-between'}}>
@@ -132,7 +133,7 @@ const HomeGreetings = ({ name, membershipSince, lastCheckIn, membershipStatus })
                   </View>
                 </TouchableOpacityBase>
               </HStack>
-              {/* </View> */}
+              {/* 
               <TouchableOpacity
                 onPress={onFriendlierButtonPress}
                 style={[
@@ -146,6 +147,7 @@ const HomeGreetings = ({ name, membershipSince, lastCheckIn, membershipStatus })
                   alt="Logo"
                 />
               </TouchableOpacity>
+              */}
             </Box>
           </Box>
           {/* <Box>

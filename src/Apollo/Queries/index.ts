@@ -13,6 +13,7 @@ import { GET_ALL_INVENTORIES_BY_MID, GET_ALL_ORDER_TYPES_BY_MID, GET_MY_ORDERS, 
 import { GET_CHANNELS } from './Channel';
 import { GET_CHATS } from './Chat';
 import { GET_LEADERBOARDS } from './GetLeaderboards';
+import { GET_CURRENT_APP_VERSION } from './GetCurrentAppVersion';
 
 export {
     GET_NEWS,
@@ -37,5 +38,6 @@ export {
     GET_CHATS,
     GET_USERS,
     GET_PROGRAM_SCHEDULES,
-    GET_LEADERBOARDS
+    GET_LEADERBOARDS,
+    GET_CURRENT_APP_VERSION,
 };
