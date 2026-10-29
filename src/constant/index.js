@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Platform } from "react-native";
 
+export const OTA_VERSION = 'v1.2.2';
 
 export const isIos = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';
@@ -79,4 +80,3 @@ export const restaurants = [
         hero: require('../../assets/poolside_item.jpg'),
     }
 ];
-

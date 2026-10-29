@@ -23,7 +23,7 @@ import ButtonX from '../../components/common/BottonX';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import Fonts from '../../themes/Fonts';
 import { trackUserEvent } from '../../utils';
-import { TrackingEventTypes } from '../../constant';
+import { OTA_VERSION, TrackingEventTypes } from '../../constant';
 import { RESTART_UNBOARDING } from '../../Apollo/Mutations';
 import { showMessage } from 'react-native-flash-message';
 
@@ -148,7 +148,7 @@ const NewAccountScreen = () => {
                         { <AppText
                             style={{ color: colors.white }}
                         >
-                            OTA Version: v1.2.1
+                            OTA Version: {OTA_VERSION}
                         </AppText> }
                     </Box>
                 </LinearGradient>

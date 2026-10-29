@@ -92,11 +92,11 @@ const ThemeConsumer = () => {
 
     Alert.alert(
       'Update ready',
-      'A new version is ready to install. Restart the app now to apply it?',
+      'We made some improvements. It only takes a moment to apply.',
       [
         { text: 'Later', style: 'cancel' },
         {
-          text: 'Restart now',
+          text: 'Let\'s go!',
           onPress: () => {
             Updates.reloadAsync().catch(error => {
               console.error('Unable to restart with the downloaded update:', error);
