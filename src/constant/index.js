@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Platform } from "react-native";
 
-export const OTA_VERSION = 'v1.2.2';
+export const OTA_VERSION = 'v1.2.3';
 
 export const isIos = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';

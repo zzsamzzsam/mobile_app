@@ -118,7 +118,7 @@ const DeleteUser = () => {
                         style={styles.normalText}
                     >
                         After your online account is deleted, you will need to contact
-                        Toronto Pan Am Sports Centre to create a new online account ,
+                        Toronto Pan Am Sports Centre to create a new online account,
                         if you want it to be connected to your membership.
                     </AppText>
                     <AppText
